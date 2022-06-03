@@ -38,19 +38,68 @@ button {
 // Main grid
 body {
   display: grid;
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
-  align-content: space-between;
 }
 
 // Header
 header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
+  padding: 20px 4vw;
+  position: relative;
+  box-shadow: 0 4px 4px -4px rgb(212, 212, 212);
+}
+
+.logo {
+  color: $light-accent-color;
+  font-size: 1.7rem;
+  font-weight: 700;
+  min-width: max-content;
 }
 
 label {
   display: none;
+}
+
+#search {
+  padding: 14px 1.5vw;
+  border-radius: 4px 0 0 4px;
+  background: $primary-color;
+  border: none;
+  width: 100%;
+
+  &:focus {
+    outline-color: $accent-color;
+  }
+}
+
+.search__icon {
+  //background: $primary-color;
+  //border-radius: 0px 4px 4px 0px;
+  padding: 14px;
+
+  i {
+    color: $accent-color;
+  }
+  
+
+    
+}
+
+.search {
+  display: flex;
+  width: 40%;
+  gap: 1px;
+  background: $primary-color;
+  border-radius: 4px;
+}
+
+// Main
+main {
+  background: $primary-color;
+  padding: 32px;
 }
 
 footer {
