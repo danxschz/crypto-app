@@ -1,5 +1,6 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 // Variables
 $primary-color: #f4f7f9;
@@ -53,8 +54,17 @@ header {
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  img {
+    width: 50px;
+  }
+}
+
+.logo__text {
   color: $light-accent-color;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 700;
   min-width: max-content;
 }
@@ -82,10 +92,7 @@ label {
 
   i {
     color: $accent-color;
-  }
-  
-
-    
+  }    
 }
 
 .search {
@@ -94,6 +101,10 @@ label {
   gap: 1px;
   background: $primary-color;
   border-radius: 4px;
+}
+
+.date {
+  font-weight: 500;
 }
 
 // Main
