@@ -1,0 +1,69 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap');
+
+// Variables
+$primary-color: #f4f7f9;
+$accent-color: #21c9b8;
+$light-accent-color: #41d9ab;
+$text-color: #262a41;
+$system-font-stack: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+  segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+
+// General rules
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Mulish', $system-font-stack;
+  color: $text-color;
+}
+
+h1,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+// Main grid
+body {
+  display: grid;
+  min-height: 100vh;
+  align-content: space-between;
+}
+
+// Header
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+label {
+  display: none;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.indicators {
+  display: flex;
+  gap: 16px;
+}
+
+.coin {
+  display: flex;
+  gap: 16px;
+}
