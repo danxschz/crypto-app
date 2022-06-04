@@ -57,8 +57,14 @@ header {
   display: flex;
   align-items: center;
   gap: 12px;
+
   img {
     width: 50px;
+  }
+
+  a {
+    color: $light-accent-color;
+    text-decoration: none;
   }
 }
 
@@ -79,20 +85,30 @@ label {
   background: $primary-color;
   border: none;
   width: 100%;
+  color: $text-color;
 
   &:focus {
     outline-color: $accent-color;
   }
 }
 
-.search__icon {
-  //background: $primary-color;
-  //border-radius: 0px 4px 4px 0px;
+.search__btn {
+  background: $primary-color;
+  border-radius: 4px;
+  border: none;
   padding: 14px;
 
   i {
-    color: $accent-color;
-  }    
+    opacity: 0.3;
+    transition: color 0.3s, opacity 0.3s;
+  }
+  
+  &:hover {
+    i {
+      color: $accent-color;
+      opacity: 1;
+    }
+  }
 }
 
 .search {
