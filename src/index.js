@@ -62,7 +62,7 @@ const displayIndicators = (indicators) => {
 
   const marketCap = document.querySelector('.market-cap');
   const marketCapValue = indicators.data.total_market_cap.usd;
-  marketCap.textContent = marketCapValue.toLocaleString();
+  marketCap.textContent = `$${marketCapValue.toLocaleString()}`;
 
   const dominance = document.querySelector('.dominance');
   const dominanceData = indicators.data.market_cap_percentage;
@@ -76,7 +76,7 @@ const displayIndicators = (indicators) => {
     i += 1;
   }
 
-  dominance.textContent = dominanceValue.trim();
+  dominance.textContent = dominanceValue.trim().toUpperCase();
 }
 
 const setIndicators = async () => {
