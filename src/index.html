@@ -24,9 +24,25 @@
   </header>
 
   <main>
-    <h1>Explore Market</h1>
-    <div>Cryptocurrency prices by market cap</div>
-    <div class="coins"></div>
+    <div class="heading">
+      <h1>Cryptocurrency Prices by Market Cap</h1>
+      <div>The global crypto market cap is <span class="market-cap-2"></span>, a <span class="market-percentage"></span> increase over the last day.</div>
+    </div>
+
+    <table>
+      <caption>Cryptocurrency prices by market cap</caption>
+      <thead>
+        <tr>
+          <th scope="col" class="outer-left">#</th>
+          <th scope="col" class="coin-th">Coin</th>
+          <th scope="col">Price</th>
+          <th scope="col">24h</th>
+          <th scope="col">7d</th>
+          <th scope="col" class="outer-right">Market Cap</th>
+        </tr>
+      </thead>
+      <tbody class="coins"></tbody>
+    </table>
   </main>
 
   <footer>

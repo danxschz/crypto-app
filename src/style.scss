@@ -49,7 +49,7 @@ header {
   align-items: center;
   padding: 20px 4vw;
   position: relative;
-  box-shadow: 0 4px 4px -4px rgb(212, 212, 212);
+  box-shadow: 0 2px 4px -4px rgb(212, 212, 212);
 }
 
 .logo {
@@ -124,13 +124,84 @@ header {
 
 // Main
 main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   background: $primary-color;
-  padding: 32px;
+  padding: 32px 8vw;
 }
 
-.coin {
+.heading {
   display: flex;
+  flex-direction: column;
   gap: 16px;
+
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+
+table {
+  border-spacing: 0 6px;
+}
+
+caption {
+  display: none;
+}
+
+th {
+  padding: 8px 16px;
+  color: white;
+  background: $accent-color;
+}
+
+.coin-th {
+  text-align: left;
+  padding-left: 16px;
+}
+
+.outer-left {
+  border-radius: 4px 0 0 4px;
+}
+
+.outer-right {
+  border-radius: 0 4px 4px 0;
+}
+
+td {
+  text-align: center;
+  padding: 16px;
+  background: white;
+}
+
+.coin__identifier {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  img {
+    width: 30px;
+  }
+}
+
+.coin__name {
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.coin__symbol {
+  text-transform: uppercase;
+  opacity: 0.4;
+}
+
+.coin__price {
+  font-weight: 700;
+}
+
+.coin__change {
+}
+
+.coin__cap {
 }
 
 // Footer

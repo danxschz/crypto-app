@@ -6,38 +6,67 @@ const date = document.querySelector('.date');
 date.textContent = moment().format("dddd, MMMM Do YYYY");
 
 const getCoins = async () => {
-  const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false', { mode: 'cors' });
+  const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=7d', { mode: 'cors' });
   return response.json();
 }
 
 const displayCoins = (coins) => {
-  const coinsDiv = document.querySelector('.coins');
+  const coinsTable = document.querySelector('.coins');
+  console.log(coins);
 
   coins.forEach(coin => {
-    const coinDiv = document.createElement('div');
-    coinDiv.classList.add('coin');
+    const coinRow = document.createElement('tr');
+    coinRow.classList.add('coin');
 
-    const coinName = document.createElement('div');
+    const coinRank = document.createElement('td');
+    coinRank.setAttribute('class', 'coin__rank outer-left');
+    coinRank.textContent = coin.market_cap_rank;
+    coinRow.appendChild(coinRank);
+
+    const coinIdentifier = document.createElement('td');
+    coinIdentifier.classList.add('coin__identifier');
+
+    const coinImg = document.createElement('img');
+    coinImg.src = coin.image;
+    coinIdentifier.appendChild(coinImg);
+
+    const coinName = document.createElement('span');
+    coinName.classList.add('coin__name');
     coinName.textContent = coin.id;
-    coinDiv.appendChild(coinName);
+    coinIdentifier.appendChild(coinName);
 
-    const coinSymbol = document.createElement('div');
+    const coinSymbol = document.createElement('span');
+    coinSymbol.classList.add('coin__symbol');
     coinSymbol.textContent = coin.symbol;
-    coinDiv.appendChild(coinSymbol);
+    coinIdentifier.appendChild(coinSymbol);
 
-    const coinPrice = document.createElement('div');
+    coinRow.appendChild(coinIdentifier);
+
+    //const coinInfo = document.createElement('div');
+    //coinInfo.classList.add('coin__info');
+
+    const coinPrice = document.createElement('td');
+    coinPrice.classList.add('coin__price');
     coinPrice.textContent = `$${coin.current_price.toLocaleString()}`;
-    coinDiv.appendChild(coinPrice);
+    coinRow.appendChild(coinPrice);
 
-    const priceChange = document.createElement('div');
+    const priceChange = document.createElement('td');
+    priceChange.classList.add('coin__change');
     priceChange.textContent = coin.price_change_percentage_24h.toFixed(2);
-    coinDiv.appendChild(priceChange);
+    coinRow.appendChild(priceChange);
 
-    const marketCap = document.createElement('div');
+    const priceChangeWeek = document.createElement('td');
+    priceChangeWeek.classList.add('coin__change');
+    priceChangeWeek.textContent = coin.price_change_percentage_7d_in_currency.toFixed(2);
+    coinRow.appendChild(priceChangeWeek);
+
+    const marketCap = document.createElement('td');
+    marketCap.classList.add('coin__cap');
     marketCap.textContent = `$${coin.market_cap.toLocaleString()}`;
-    coinDiv.appendChild(marketCap);
+    coinRow.appendChild(marketCap);
 
-    coinsDiv.appendChild(coinDiv);
+    //coinDiv.appendChild(coinInfo);
+    coinsTable.appendChild(coinRow);
   });
 }
 
@@ -79,10 +108,42 @@ const displayIndicators = (indicators) => {
   dominance.textContent = dominanceValue.trim().toUpperCase();
 }
 
+const displayMarketCap = (indicators) => {
+  const marketCap = document.querySelector('.market-cap-2');
+  marketCap.textContent = abbreviateNumber(indicators.data.total_market_cap.usd);
+
+  const marketPercentage = document.querySelector('.market-percentage');
+  marketPercentage.textContent = `${indicators.data.market_cap_change_percentage_24h_usd.toFixed(1)}%`;
+}
+
 const setIndicators = async () => {
   const indicators = await getIndicators();
+  console.log(indicators);
   displayIndicators(indicators);
+  displayMarketCap(indicators);
 }
 
 setCoins();
 setIndicators();
+
+var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+
+function abbreviateNumber(number){
+
+    // what tier? (determines SI symbol)
+    var tier = Math.log10(Math.abs(number)) / 3 | 0;
+
+    // if zero, we don't need a suffix
+    if(tier == 0) return number;
+
+    // get suffix and determine scale
+    var suffix = SI_SYMBOL[tier];
+    var scale = Math.pow(10, tier * 3);
+
+    // scale the number
+    var scaled = number / scale;
+
+    // format number and add suffix
+    return scaled.toFixed(2) + suffix;
+}
+
