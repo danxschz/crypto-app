@@ -204,6 +204,10 @@ td {
 .coin__cap {
 }
 
+.coin__last {
+  width: clamp(120px, 15vw, 700px);
+  padding: 4px 16px;
+}
 // Footer
 footer {
   display: flex;

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import './normalize.css';
 import './style.scss';
+import Chart from 'chart.js/auto';
 
 const date = document.querySelector('.date');
 date.textContent = moment().format("dddd, MMMM Do YYYY");
@@ -64,6 +65,67 @@ const displayCoins = (coins) => {
     marketCap.classList.add('coin__cap');
     marketCap.textContent = `$${coin.market_cap.toLocaleString()}`;
     coinRow.appendChild(marketCap);
+
+    const lastDays = document.createElement('td');
+    lastDays.classList.add('coin__last');
+    const ctx = document.createElement('canvas');
+    let chartArray = coin.sparkline_in_7d.price;
+    const labels = [];
+    for (let i=1; i<=168; i++) {
+      labels.push(i);
+    }
+    console.log(labels);
+    console.log(chartArray);
+    const data = {
+      labels: labels,
+      datasets: [{
+        data: chartArray,
+        fill: false,
+        borderColor: '#41d9ab',
+        tension: 0.1
+      }]
+    };
+
+    lastDays.appendChild(ctx);
+    coinRow.appendChild(lastDays);
+    
+
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+             display: false
+          }
+        },
+        scales: {
+          x: {
+            display: false
+          },
+          y: {
+            display: false
+          }
+        },
+        elements: {
+          point:{
+            radius: 0
+        }
+      }
+      }
+    });
+
+
+
+
+
+
+
+
+
+
 
     //coinDiv.appendChild(coinInfo);
     coinsTable.appendChild(coinRow);
