@@ -67,7 +67,7 @@ const displayCoins = (coins) => {
     coinRow.appendChild(marketCap);
 
     const lastDays = document.createElement('td');
-    lastDays.classList.add('coin__last');
+    lastDays.setAttribute('class', 'coin__last outer-right');
     const ctx = document.createElement('canvas');
     let chartArray = coin.sparkline_in_7d.price;
     const labels = [];
@@ -94,6 +94,7 @@ const displayCoins = (coins) => {
       type: 'line',
       data: data,
       options: {
+        borderWidth: 2,
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
