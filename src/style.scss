@@ -186,6 +186,16 @@ td {
   font-weight: 700;
 }
 
+.coin {
+  cursor: pointer;
+
+  &:hover {
+    td {
+      background: rgba(33, 201, 184, 0.1);
+    }
+  }
+}
+
 .coin__identifier {
   display: flex;
   gap: 10px;
