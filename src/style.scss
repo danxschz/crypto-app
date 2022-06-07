@@ -4,7 +4,8 @@
 // Variables
 $primary-color: #f4f7f9;
 $accent-color: #21c9b8;
-$light-accent-color: #41d9ab;
+$positive-color: #41d9ab;
+$negative-color: #dc3434;
 $text-color: #262a41;
 $system-font-stack: -apple-system, BlinkMacSystemFont, avenir next, avenir,
   segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
@@ -62,14 +63,14 @@ header {
   }
 
   a {
-    color: $light-accent-color;
+    color: $accent-color;
     text-decoration: none;
   }
 }
 
 .logo__text {
   min-width: max-content;
-  color: $light-accent-color;
+  //color: $accent-color;
   font-size: 1.6rem;
   font-weight: 700;
 }
@@ -137,8 +138,17 @@ main {
   gap: 16px;
 
   h1 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
+    //color: $accent-color;
   }
+}
+
+.market-cap-2 {
+  font-weight: 700;
+}
+
+.market-percentage {
+  font-weight: 600;
 }
 
 table {
@@ -150,7 +160,7 @@ caption {
 }
 
 th {
-  padding: 8px 16px;
+  padding: 10px 16px;
   color: white;
   background: $accent-color;
 }
@@ -172,12 +182,15 @@ td {
   text-align: center;
   padding: 18px;
   background: white;
+  font-weight: 700;
+  //height: 66px;
 }
 
 .coin__identifier {
   display: flex;
   gap: 10px;
   align-items: center;
+  //height: 100%;
 
   img {
     width: 30px;
@@ -192,6 +205,7 @@ td {
 .coin__symbol {
   text-transform: uppercase;
   opacity: 0.5;
+  font-weight: 400;
 }
 
 .coin__price {
@@ -199,7 +213,30 @@ td {
 }
 
 .coin__change {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+
+  .fa-caret-up {
+    align-self: flex-end;
+
+  }
 }
+
+.positive {
+  color: $positive-color;
+}
+
+.negative {
+  color: $negative-color;
+}
+/*
+.coin__change {
+  //display: flex;
+  align-items: start;
+  gap: 4px;
+  height: 66px;
+}*/
 
 .coin__cap {
 }
@@ -208,6 +245,7 @@ td {
   width: clamp(120px, 15vw, 700px);
   padding: 2px 16px;
 }
+
 // Footer
 footer {
   display: flex;

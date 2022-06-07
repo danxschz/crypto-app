@@ -11,6 +11,16 @@ const getCoins = async () => {
   return response.json();
 }
 
+const setChangePercentage = (changePercentage, iconElement, valueElement) => {
+  if (changePercentage >= 0) {
+    iconElement.setAttribute('class', 'fa-solid fa-caret-up positive');
+    valueElement.classList.add('positive');
+  } else {
+    iconElement.setAttribute('class', 'fa-solid fa-caret-down negative');
+    valueElement.classList.add('negative');
+  }
+}
+
 const displayCoins = (coins) => {
   const coinsTable = document.querySelector('.coins');
   console.log(coins);
@@ -25,41 +35,59 @@ const displayCoins = (coins) => {
     coinRow.appendChild(coinRank);
 
     const coinIdentifier = document.createElement('td');
-    coinIdentifier.classList.add('coin__identifier');
+
+    const coinIdentifierFlex = document.createElement('div');
+    coinIdentifierFlex.classList.add('coin__identifier');
 
     const coinImg = document.createElement('img');
     coinImg.src = coin.image;
-    coinIdentifier.appendChild(coinImg);
+    coinIdentifierFlex.appendChild(coinImg);
 
     const coinName = document.createElement('span');
     coinName.classList.add('coin__name');
     coinName.textContent = coin.id;
-    coinIdentifier.appendChild(coinName);
+    coinIdentifierFlex.appendChild(coinName);
 
     const coinSymbol = document.createElement('span');
     coinSymbol.classList.add('coin__symbol');
     coinSymbol.textContent = coin.symbol;
-    coinIdentifier.appendChild(coinSymbol);
+    coinIdentifierFlex.appendChild(coinSymbol);
+
+    coinIdentifier.appendChild(coinIdentifierFlex);
 
     coinRow.appendChild(coinIdentifier);
-
-    //const coinInfo = document.createElement('div');
-    //coinInfo.classList.add('coin__info');
 
     const coinPrice = document.createElement('td');
     coinPrice.classList.add('coin__price');
     coinPrice.textContent = `$${coin.current_price.toLocaleString()}`;
     coinRow.appendChild(coinPrice);
 
-    const priceChange = document.createElement('td');
-    priceChange.classList.add('coin__change');
-    priceChange.textContent = coin.price_change_percentage_24h.toFixed(2);
-    coinRow.appendChild(priceChange);
+    const dayChange = document.createElement('td');
+    const dayChangeDiv = document.createElement('div');
+    dayChangeDiv.classList.add('coin__change');
 
-    const priceChangeWeek = document.createElement('td');
-    priceChangeWeek.classList.add('coin__change');
-    priceChangeWeek.textContent = coin.price_change_percentage_7d_in_currency.toFixed(2);
-    coinRow.appendChild(priceChangeWeek);
+    const dayChangeIcon = document.createElement('i');
+    const dayChangeValue = document.createElement('div');
+    setChangePercentage(coin.price_change_percentage_24h, dayChangeIcon, dayChangeValue);
+    dayChangeDiv.appendChild(dayChangeIcon);
+    dayChangeValue.textContent = `${coin.price_change_percentage_24h.toFixed(2).replace('-','')}%`;
+    dayChangeDiv.appendChild(dayChangeValue);
+    dayChange.appendChild(dayChangeDiv);
+    coinRow.appendChild(dayChange);
+
+    const weekChange = document.createElement('td');
+    const weekChangeDiv = document.createElement('div');
+    weekChangeDiv.classList.add('coin__change');
+
+    const weekChangeIcon = document.createElement('i');
+    const weekChangeValue = document.createElement('div');
+    setChangePercentage(coin.price_change_percentage_7d_in_currency, weekChangeIcon, weekChangeValue);
+    weekChangeDiv.appendChild(weekChangeIcon)
+
+    weekChangeValue.textContent = `${coin.price_change_percentage_7d_in_currency.toFixed(2).replace('-', '')}%`;
+    weekChangeDiv.appendChild(weekChangeValue);
+    weekChange.appendChild(weekChangeDiv)
+    coinRow.appendChild(weekChange);
 
     const marketCap = document.createElement('td');
     marketCap.classList.add('coin__cap');
@@ -71,6 +99,7 @@ const displayCoins = (coins) => {
     const ctx = document.createElement('canvas');
     let chartArray = coin.sparkline_in_7d.price;
     const labels = [];
+    let color = (coin.price_change_percentage_7d_in_currency >= 0) ? '#41d9ab':'#dc3434';
     for (let i=1; i<=168; i++) {
       labels.push(i);
     }
@@ -81,7 +110,7 @@ const displayCoins = (coins) => {
       datasets: [{
         data: chartArray,
         fill: false,
-        borderColor: '#41d9ab',
+        borderColor: color,
         tension: 0.1
       }]
     };
@@ -118,17 +147,6 @@ const displayCoins = (coins) => {
       }
     });
 
-
-
-
-
-
-
-
-
-
-
-    //coinDiv.appendChild(coinInfo);
     coinsTable.appendChild(coinRow);
   });
 }
@@ -173,10 +191,18 @@ const displayIndicators = (indicators) => {
 
 const displayMarketCap = (indicators) => {
   const marketCap = document.querySelector('.market-cap-2');
-  marketCap.textContent = abbreviateNumber(indicators.data.total_market_cap.usd);
+  marketCap.textContent = `$${abbreviateNumber(indicators.data.total_market_cap.usd)}`;
 
   const marketPercentage = document.querySelector('.market-percentage');
-  marketPercentage.textContent = `${indicators.data.market_cap_change_percentage_24h_usd.toFixed(1)}%`;
+  const change = document.querySelector('.change');
+  if (indicators.data.market_cap_change_percentage_24h_usd >= 0) {
+    marketPercentage.classList.add('positive');
+    change.textContent = 'increase';
+  } else {
+    marketPercentage.classList.add('negative');
+    change.textContent = 'decrease';
+  }
+  marketPercentage.textContent = `${indicators.data.market_cap_change_percentage_24h_usd.toFixed(2).replace('-', '')}%`;
 }
 
 const setIndicators = async () => {
