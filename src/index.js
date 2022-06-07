@@ -1,6 +1,6 @@
-import moment from 'moment';
 import './normalize.css';
 import './style.scss';
+import moment from 'moment';
 import Chart from 'chart.js/auto';
 
 const date = document.querySelector('.date');
@@ -11,7 +11,7 @@ const getCoins = async () => {
   return response.json();
 }
 
-const setChangePercentage = (changePercentage, iconElement, valueElement) => {
+const styleChangePercentage = (changePercentage, iconElement, valueElement) => {
   if (changePercentage >= 0) {
     iconElement.setAttribute('class', 'fa-solid fa-caret-up positive');
     valueElement.classList.add('positive');
@@ -22,10 +22,10 @@ const setChangePercentage = (changePercentage, iconElement, valueElement) => {
 }
 
 const displayCoins = (coins) => {
-  const coinsTable = document.querySelector('.coins');
   console.log(coins);
+  const coinsTable = document.querySelector('.coins');
 
-  coins.forEach(coin => {
+  coins.forEach((coin) => {
     const coinRow = document.createElement('tr');
     coinRow.classList.add('coin');
 
@@ -35,31 +35,29 @@ const displayCoins = (coins) => {
     coinRow.appendChild(coinRank);
 
     const coinIdentifier = document.createElement('td');
-
-    const coinIdentifierFlex = document.createElement('div');
-    coinIdentifierFlex.classList.add('coin__identifier');
+    const coinIdentifierDiv = document.createElement('div');
+    coinIdentifierDiv.classList.add('coin__identifier');
 
     const coinImg = document.createElement('img');
     coinImg.src = coin.image;
-    coinIdentifierFlex.appendChild(coinImg);
+    coinIdentifierDiv.appendChild(coinImg);
 
-    const coinName = document.createElement('span');
+    const coinName = document.createElement('div');
     coinName.classList.add('coin__name');
     coinName.textContent = coin.id;
-    coinIdentifierFlex.appendChild(coinName);
+    coinIdentifierDiv.appendChild(coinName);
 
-    const coinSymbol = document.createElement('span');
+    const coinSymbol = document.createElement('div');
     coinSymbol.classList.add('coin__symbol');
     coinSymbol.textContent = coin.symbol;
-    coinIdentifierFlex.appendChild(coinSymbol);
+    coinIdentifierDiv.appendChild(coinSymbol);
 
-    coinIdentifier.appendChild(coinIdentifierFlex);
-
+    coinIdentifier.appendChild(coinIdentifierDiv);
     coinRow.appendChild(coinIdentifier);
 
     const coinPrice = document.createElement('td');
     coinPrice.classList.add('coin__price');
-    coinPrice.textContent = `$${coin.current_price.toLocaleString()}`;
+    coinPrice.textContent = `$${coin.current_price.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
     coinRow.appendChild(coinPrice);
 
     const dayChange = document.createElement('td');
@@ -68,9 +66,10 @@ const displayCoins = (coins) => {
 
     const dayChangeIcon = document.createElement('i');
     const dayChangeValue = document.createElement('div');
-    setChangePercentage(coin.price_change_percentage_24h, dayChangeIcon, dayChangeValue);
-    dayChangeDiv.appendChild(dayChangeIcon);
+    styleChangePercentage(coin.price_change_percentage_24h, dayChangeIcon, dayChangeValue);
     dayChangeValue.textContent = `${coin.price_change_percentage_24h.toFixed(2).replace('-','')}%`;
+
+    dayChangeDiv.appendChild(dayChangeIcon);
     dayChangeDiv.appendChild(dayChangeValue);
     dayChange.appendChild(dayChangeDiv);
     coinRow.appendChild(dayChange);
@@ -81,10 +80,10 @@ const displayCoins = (coins) => {
 
     const weekChangeIcon = document.createElement('i');
     const weekChangeValue = document.createElement('div');
-    setChangePercentage(coin.price_change_percentage_7d_in_currency, weekChangeIcon, weekChangeValue);
-    weekChangeDiv.appendChild(weekChangeIcon)
-
+    styleChangePercentage(coin.price_change_percentage_7d_in_currency, weekChangeIcon, weekChangeValue);
     weekChangeValue.textContent = `${coin.price_change_percentage_7d_in_currency.toFixed(2).replace('-', '')}%`;
+
+    weekChangeDiv.appendChild(weekChangeIcon)
     weekChangeDiv.appendChild(weekChangeValue);
     weekChange.appendChild(weekChangeDiv)
     coinRow.appendChild(weekChange);
@@ -95,37 +94,34 @@ const displayCoins = (coins) => {
     coinRow.appendChild(marketCap);
 
     const lastDays = document.createElement('td');
-    lastDays.setAttribute('class', 'coin__last outer-right');
+    lastDays.setAttribute('class', 'coin__last-days outer-right');
     const ctx = document.createElement('canvas');
-    let chartArray = coin.sparkline_in_7d.price;
+
+    const chartData = coin.sparkline_in_7d.price;
+    const chartColor = (coin.price_change_percentage_7d_in_currency >= 0) ? '#41d9ab':'#dc3434';
+
     const labels = [];
-    let color = (coin.price_change_percentage_7d_in_currency >= 0) ? '#41d9ab':'#dc3434';
-    for (let i=1; i<=168; i++) {
+    for (let i = 1; i <= chartData.length; i += 1) {
       labels.push(i);
     }
-    console.log(labels);
-    console.log(chartArray);
+
     const data = {
       labels: labels,
       datasets: [{
-        data: chartArray,
+        data: chartData,
         fill: false,
-        borderColor: color,
+        borderColor: chartColor,
         tension: 0.1
       }]
     };
 
-    lastDays.appendChild(ctx);
-    coinRow.appendChild(lastDays);
-    
-
-    const myChart = new Chart(ctx, {
+    const chart = new Chart(ctx, {
       type: 'line',
       data: data,
       options: {
-        borderWidth: 2,
         responsive: true,
         maintainAspectRatio: false,
+        borderWidth: 2,
         plugins: {
           legend: {
              display: false
@@ -142,11 +138,13 @@ const displayCoins = (coins) => {
         elements: {
           point:{
             radius: 0
+          }
         }
-      }
       }
     });
 
+    lastDays.appendChild(ctx);
+    coinRow.appendChild(lastDays);
     coinsTable.appendChild(coinRow);
   });
 }
@@ -162,19 +160,19 @@ const getIndicators = async () => {
 }
 
 const displayIndicators = (indicators) => {
-  const cryptos = document.querySelector('.cryptos');
+  const cryptos = document.querySelector('.cryptos-indicator');
   const cryptosValue = indicators.data.active_cryptocurrencies;
   cryptos.textContent = cryptosValue.toLocaleString();
 
-  const markets = document.querySelector('.markets');
+  const markets = document.querySelector('.markets-indicator');
   const marketsValue = indicators.data.markets;
   markets.textContent = marketsValue.toLocaleString();
 
-  const marketCap = document.querySelector('.market-cap');
+  const marketCap = document.querySelector('.market-cap-indicator');
   const marketCapValue = indicators.data.total_market_cap.usd;
   marketCap.textContent = `$${marketCapValue.toLocaleString()}`;
 
-  const dominance = document.querySelector('.dominance');
+  const dominance = document.querySelector('.dominance-indicator');
   const dominanceData = indicators.data.market_cap_percentage;
   let dominanceValue = '';
   let i = 0
@@ -190,11 +188,11 @@ const displayIndicators = (indicators) => {
 }
 
 const displayMarketCap = (indicators) => {
-  const marketCap = document.querySelector('.market-cap-2');
+  const marketCap = document.querySelector('.description__market-cap');
   marketCap.textContent = `$${abbreviateNumber(indicators.data.total_market_cap.usd)}`;
 
-  const marketPercentage = document.querySelector('.market-percentage');
-  const change = document.querySelector('.change');
+  const marketPercentage = document.querySelector('.description__percentage');
+  const change = document.querySelector('.description__change');
   if (indicators.data.market_cap_change_percentage_24h_usd >= 0) {
     marketPercentage.classList.add('positive');
     change.textContent = 'increase';

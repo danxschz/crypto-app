@@ -32,6 +32,10 @@ ul {
   list-style: none;
 }
 
+p {
+  margin: 0;
+}
+
 button {
   cursor: pointer;
 }
@@ -70,7 +74,6 @@ header {
 
 .logo__text {
   min-width: max-content;
-  //color: $accent-color;
   font-size: 1.6rem;
   font-weight: 700;
 }
@@ -128,26 +131,25 @@ main {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background: $primary-color;
   padding: 32px 8vw;
+  background: $primary-color;
 }
 
-.heading {
+.description {
   display: flex;
   flex-direction: column;
   gap: 16px;
 
   h1 {
     font-size: 1.7rem;
-    //color: $accent-color;
   }
 }
 
-.market-cap-2 {
+.description__market-cap {
   font-weight: 700;
 }
 
-.market-percentage {
+.description__percentage {
   font-weight: 600;
 }
 
@@ -167,7 +169,6 @@ th {
 
 .coin-th {
   text-align: left;
-  padding-left: 16px;
 }
 
 .outer-left {
@@ -179,18 +180,16 @@ th {
 }
 
 td {
-  text-align: center;
-  padding: 18px;
+  padding: 18px 16px;
   background: white;
+  text-align: center;
   font-weight: 700;
-  //height: 66px;
 }
 
 .coin__identifier {
   display: flex;
   gap: 10px;
   align-items: center;
-  //height: 100%;
 
   img {
     width: 30px;
@@ -199,27 +198,21 @@ td {
 
 .coin__name {
   text-transform: capitalize;
-  font-weight: 700;
 }
 
 .coin__symbol {
   text-transform: uppercase;
-  opacity: 0.5;
   font-weight: 400;
-}
-
-.coin__price {
-  font-weight: 700;
+  opacity: 0.5;
 }
 
 .coin__change {
   display: flex;
-  gap: 10px;
   justify-content: center;
+  gap: 10px;
 
   .fa-caret-up {
     align-self: flex-end;
-
   }
 }
 
@@ -230,18 +223,8 @@ td {
 .negative {
   color: $negative-color;
 }
-/*
-.coin__change {
-  //display: flex;
-  align-items: start;
-  gap: 4px;
-  height: 66px;
-}*/
 
-.coin__cap {
-}
-
-.coin__last {
+.coin__last-days {
   width: clamp(120px, 15vw, 700px);
   padding: 2px 16px;
 }
