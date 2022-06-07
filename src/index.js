@@ -6,6 +6,39 @@ import Chart from 'chart.js/auto';
 const date = document.querySelector('.date');
 date.textContent = moment().format("dddd, MMMM Do YYYY");
 
+const getIndicators = async () => {
+  const response = await fetch('https://api.coingecko.com/api/v3/global', { mode: 'cors' });
+  return response.json();
+}
+
+const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+const abbreviateNumber = (number) => {
+  // Determine SI symbol
+  const tier = Math.floor(Math.log10(Math.abs(number)) / 3);
+  if (tier == 0) return number;
+
+  const suffix = SI_SYMBOL[tier];
+  const scale = Math.pow(10, tier * 3);
+  const scaled = number / scale;
+  return scaled.toFixed(2) + suffix;
+}
+
+const displayMarketCap = (indicators) => {
+  const marketCap = document.querySelector('.description__market-cap');
+  marketCap.textContent = `$${abbreviateNumber(indicators.data.total_market_cap.usd)}`;
+
+  const changePercentage = document.querySelector('.description__percentage');
+  const change = document.querySelector('.description__change');
+  if (indicators.data.market_cap_change_percentage_24h_usd >= 0) {
+    changePercentage.classList.add('positive');
+    change.textContent = 'increase';
+  } else {
+    changePercentage.classList.add('negative');
+    change.textContent = 'decrease';
+  }
+  changePercentage.textContent = `${indicators.data.market_cap_change_percentage_24h_usd.toFixed(2).replace('-', '')}%`;
+}
+
 const getCoins = async () => {
   const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=7d', { mode: 'cors' });
   return response.json();
@@ -149,35 +182,29 @@ const displayCoins = (coins) => {
   });
 }
 
-const setCoins = async () => {
+const setHome = async () => {
+  const indicators = await getIndicators();
+  displayMarketCap(indicators);
   const coins = await getCoins();
   displayCoins(coins);
 }
 
-const getIndicators = async () => {
-  const response = await fetch('https://api.coingecko.com/api/v3/global', { mode: 'cors' });
-  return response.json();
-}
-
 const displayIndicators = (indicators) => {
   const cryptos = document.querySelector('.cryptos-indicator');
-  const cryptosValue = indicators.data.active_cryptocurrencies;
-  cryptos.textContent = cryptosValue.toLocaleString();
+  cryptos.textContent = indicators.data.active_cryptocurrencies.toLocaleString();
 
   const markets = document.querySelector('.markets-indicator');
-  const marketsValue = indicators.data.markets;
-  markets.textContent = marketsValue.toLocaleString();
+  markets.textContent = indicators.data.markets.toLocaleString();
 
   const marketCap = document.querySelector('.market-cap-indicator');
-  const marketCapValue = indicators.data.total_market_cap.usd;
-  marketCap.textContent = `$${marketCapValue.toLocaleString()}`;
+  marketCap.textContent = `$${indicators.data.total_market_cap.usd.toLocaleString()}`;
 
   const dominance = document.querySelector('.dominance-indicator');
   const dominanceData = indicators.data.market_cap_percentage;
   let dominanceValue = '';
-  let i = 0
 
   // Get top 2 coins
+  let i = 0
   for (let coin in dominanceData) {
     if (i >= 2) break;
     dominanceValue += ` ${coin}: ${dominanceData[coin].toFixed(1)}%`
@@ -187,50 +214,10 @@ const displayIndicators = (indicators) => {
   dominance.textContent = dominanceValue.trim().toUpperCase();
 }
 
-const displayMarketCap = (indicators) => {
-  const marketCap = document.querySelector('.description__market-cap');
-  marketCap.textContent = `$${abbreviateNumber(indicators.data.total_market_cap.usd)}`;
-
-  const marketPercentage = document.querySelector('.description__percentage');
-  const change = document.querySelector('.description__change');
-  if (indicators.data.market_cap_change_percentage_24h_usd >= 0) {
-    marketPercentage.classList.add('positive');
-    change.textContent = 'increase';
-  } else {
-    marketPercentage.classList.add('negative');
-    change.textContent = 'decrease';
-  }
-  marketPercentage.textContent = `${indicators.data.market_cap_change_percentage_24h_usd.toFixed(2).replace('-', '')}%`;
-}
-
 const setIndicators = async () => {
   const indicators = await getIndicators();
-  console.log(indicators);
   displayIndicators(indicators);
-  displayMarketCap(indicators);
 }
 
-setCoins();
+setHome();
 setIndicators();
-
-var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
-
-function abbreviateNumber(number){
-
-    // what tier? (determines SI symbol)
-    var tier = Math.log10(Math.abs(number)) / 3 | 0;
-
-    // if zero, we don't need a suffix
-    if(tier == 0) return number;
-
-    // get suffix and determine scale
-    var suffix = SI_SYMBOL[tier];
-    var scale = Math.pow(10, tier * 3);
-
-    // scale the number
-    var scaled = number / scale;
-
-    // format number and add suffix
-    return scaled.toFixed(2) + suffix;
-}
-
