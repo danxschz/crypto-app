@@ -177,7 +177,7 @@ caption {
 }
 
 th {
-  padding: 10px 16px;
+  padding: 8px 16px;
   color: white;
   background: $accent-color;
 }
@@ -195,7 +195,8 @@ th {
 }
 
 td {
-  padding: 18px 16px;
+  height: 62px;
+  padding: 0 16px;
   background: white;
   text-align: center;
   font-weight: 700;

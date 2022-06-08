@@ -172,7 +172,8 @@ const displayCoins = (coins) => {
           point:{
             radius: 0
           }
-        }
+        },
+        events: [],
       }
     });
 
