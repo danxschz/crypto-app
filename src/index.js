@@ -4,14 +4,14 @@ import moment from 'moment';
 import Chart from 'chart.js/auto';
 
 const date = document.querySelector('.date');
-date.textContent = moment().format("dddd, MMMM Do YYYY");
+date.textContent = moment().format('dddd, MMMM Do YYYY');
 
 const getIndicators = async () => {
   const response = await fetch('https://api.coingecko.com/api/v3/global', { mode: 'cors' });
   return response.json();
 }
 
-const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+const SI_SYMBOL = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 const abbreviateNumber = (number) => {
   // Determine SI symbol
   const tier = Math.floor(Math.log10(Math.abs(number)) / 3);

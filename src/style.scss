@@ -55,6 +55,11 @@ header {
   padding: 20px 4vw;
   position: relative;
   box-shadow: 0 2px 4px -4px rgb(212, 212, 212);
+
+  a {
+    color: $accent-color;
+    text-decoration: none;
+  }
 }
 
 .logo {
@@ -64,11 +69,6 @@ header {
 
   img {
     width: 50px;
-  }
-
-  a {
-    color: $accent-color;
-    text-decoration: none;
   }
 }
 
@@ -122,8 +122,23 @@ header {
   }
 }
 
+.date-git {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .date {
   font-weight: 500;
+}
+
+.fa-github {
+  font-size: 2rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+  transform: rotate(360deg) scale(1.2);
 }
 
 // Main
