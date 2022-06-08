@@ -1,0 +1,22 @@
+// request en coins/{id} con todo falso menos marketdata y sparkline. Also check coins/market_chart for possible better sparkline
+
+/*
+Back to the top
+Plus button to show more coin rows
+Trending coins
+Try/Catch on fetches
+*/
+
+  "id": "bitcoin",
+  "symbol": "btc",
+  "name": "Bitcoin",
+  links
+  image large
+  market_cap_rank
+  marketdata {
+    currentprice usd
+    ath usd also athdate usd same for atl
+    marketcap
+    fullydilutedvaluation
+    totalvolume usd (it means 24h volume)
+    low24h same with high and maybe 7d

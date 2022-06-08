@@ -202,7 +202,7 @@ td {
   font-weight: 700;
 }
 
-.coin {
+.coin-row {
   cursor: pointer;
 
   &:hover {
@@ -212,7 +212,7 @@ td {
   }
 }
 
-.coin__identifier {
+.coin-row__identifier {
   display: flex;
   gap: 10px;
   align-items: center;
@@ -222,17 +222,17 @@ td {
   }
 }
 
-.coin__name {
+.coin-row__name {
   text-transform: capitalize;
 }
 
-.coin__symbol {
+.coin-row__symbol {
   text-transform: uppercase;
   font-weight: 400;
   opacity: 0.5;
 }
 
-.coin__change {
+.coin-row__change {
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -250,7 +250,7 @@ td {
   color: $negative-color;
 }
 
-.coin__last-days {
+.coin-row__last-days {
   width: clamp(120px, 15vw, 700px);
   padding: 2px 16px;
 }

@@ -60,28 +60,28 @@ const displayCoins = (coins) => {
 
   coins.forEach((coin) => {
     const coinRow = document.createElement('tr');
-    coinRow.classList.add('coin');
+    coinRow.classList.add('coin-row');
 
     const coinRank = document.createElement('td');
-    coinRank.setAttribute('class', 'coin__rank outer-left');
+    coinRank.setAttribute('class', 'coin-row__rank outer-left');
     coinRank.textContent = coin.market_cap_rank;
     coinRow.appendChild(coinRank);
 
     const coinIdentifier = document.createElement('td');
     const coinIdentifierDiv = document.createElement('div');
-    coinIdentifierDiv.classList.add('coin__identifier');
+    coinIdentifierDiv.classList.add('coin-row__identifier');
 
     const coinImg = document.createElement('img');
     coinImg.src = coin.image;
     coinIdentifierDiv.appendChild(coinImg);
 
     const coinName = document.createElement('div');
-    coinName.classList.add('coin__name');
+    coinName.classList.add('coin-row__name');
     coinName.textContent = coin.id;
     coinIdentifierDiv.appendChild(coinName);
 
     const coinSymbol = document.createElement('div');
-    coinSymbol.classList.add('coin__symbol');
+    coinSymbol.classList.add('coin-row__symbol');
     coinSymbol.textContent = coin.symbol;
     coinIdentifierDiv.appendChild(coinSymbol);
 
@@ -89,13 +89,13 @@ const displayCoins = (coins) => {
     coinRow.appendChild(coinIdentifier);
 
     const coinPrice = document.createElement('td');
-    coinPrice.classList.add('coin__price');
+    coinPrice.classList.add('coin-row__price');
     coinPrice.textContent = `$${coin.current_price.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
     coinRow.appendChild(coinPrice);
 
     const dayChange = document.createElement('td');
     const dayChangeDiv = document.createElement('div');
-    dayChangeDiv.classList.add('coin__change');
+    dayChangeDiv.classList.add('coin-row__change');
 
     const dayChangeIcon = document.createElement('i');
     const dayChangeValue = document.createElement('div');
@@ -109,7 +109,7 @@ const displayCoins = (coins) => {
 
     const weekChange = document.createElement('td');
     const weekChangeDiv = document.createElement('div');
-    weekChangeDiv.classList.add('coin__change');
+    weekChangeDiv.classList.add('coin-row__change');
 
     const weekChangeIcon = document.createElement('i');
     const weekChangeValue = document.createElement('div');
@@ -122,12 +122,12 @@ const displayCoins = (coins) => {
     coinRow.appendChild(weekChange);
 
     const marketCap = document.createElement('td');
-    marketCap.classList.add('coin__cap');
+    marketCap.classList.add('coin-row__cap');
     marketCap.textContent = `$${coin.market_cap.toLocaleString()}`;
     coinRow.appendChild(marketCap);
 
     const lastDays = document.createElement('td');
-    lastDays.setAttribute('class', 'coin__last-days outer-right');
+    lastDays.setAttribute('class', 'coin-row__last-days outer-right');
     const ctx = document.createElement('canvas');
 
     const chartData = coin.sparkline_in_7d.price;
@@ -222,3 +222,55 @@ const setIndicators = async () => {
 
 setHome();
 setIndicators();
+
+const getCoin = async (coinId) => {
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=true`, { mode: 'cors' });
+  return response.json();
+}
+
+const displayCoin = (coin) => {
+  const main = document.querySelector('main');
+
+  const category = document.createElement('div');
+  category.classList.add('coin__category');
+
+  const categoryContent = document.createElement('span');
+  categoryContent.classList.add('coin__category__content');
+  categoryContent.textContent = 'Coin'
+  category.appendChild(categoryContent);
+
+  const categoryBracket = document.createElement('span');
+  categoryBracket.classList.add('coin__category__bracket');
+  categoryBracket.textContent = '>';
+  category.appendChild(categoryBracket);
+
+  const categoryValue = document.createElement('span');
+  categoryValue.classList.add('coin__category__value');
+  categoryValue.textContent = coin.name;
+  category.appendChild(categoryValue);
+  main.appendChild(category);
+
+  const coinRank = document.createElement('div');
+  coinRank.classList.add('coin__rank');
+  coinRank.textContent = `Rank #${coin.market_cap_rank}`;
+  main.appendChild(coinRank);
+
+  const coinIdentifier = document.createElement('div');
+  coinIdentifier.classList.add('coin__identifier');
+
+  const coinImg = document.createElement('img');
+  coinImg.src = coin.image.large;
+  coinIdentifier.appendChild(coinImg);
+
+  const coinName = document.createElement('div');
+  coinName.classList.add('coin__name');
+  coinName.textContent = coin.name;
+  coinIdentifier.appendChild(coinName);
+
+  const coinSymbol = document.createElement('div');
+  coinSymbol.classList.add('coin__symbol');
+  coinSymbol.textContent = coin.symbol;
+  coinIdentifier.appendChild(coinSymbol);
+  main.appendChild(coinIdentifier);
+
+}
