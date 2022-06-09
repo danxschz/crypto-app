@@ -229,79 +229,60 @@ const getCoin = async (coinId) => {
   return response.json();
 }
 
+const generateElement = (type, elementClass, textContent, attributes) => {
+  const element = document.createElement(type);
+  if (elementClass) element.setAttribute('class', elementClass);
+  if (textContent) element.textContent = textContent;
+  for (let attribute in attributes) {
+    element.setAttribute(attribute, attributes[attribute]);
+  }
+  return element;
+}
+
 const displayCoin = (coin) => {
   const main = document.querySelector('main');
 
-  const category = document.createElement('div');
-  category.classList.add('coin__category');
-
-  const categoryLink = document.createElement('a');
-  categoryLink.setAttribute('href', '');
-  categoryLink.textContent = 'Coins';
+  const category = generateElement('div', 'coin__category');
+  const categoryLink = generateElement('a', false, 'Coins', {href: ''});
   category.appendChild(categoryLink);
-
-  const categoryBracket = document.createElement('i');
-  categoryBracket.setAttribute('class', 'fa-solid fa-chevron-right');
-  category.appendChild(categoryBracket);
-
-  const categoryValue = document.createElement('span');
-  categoryValue.classList.add('coin__category__value');
-  categoryValue.textContent = coin.name;
+  const categoryIcon = generateElement('i', 'fa-solid fa-chevron-right');
+  category.appendChild(categoryIcon);
+  const categoryValue = generateElement('span', 'coin__category__value', coin.name);
   category.appendChild(categoryValue);
   main.appendChild(category);
 
-  const coinInfo = document.createElement('div');
-  coinInfo.classList.add('coin__info');
+  const coinInfo = generateElement('div', 'coin__info');
+  const coinInfoBasic = generateElement('div', 'coin__info__basic');
 
-  const coinInfoBasic = document.createElement('div');
-  coinInfoBasic.classList.add('coin__info__basic');
-
-  const coinRank = document.createElement('div');
-  coinRank.classList.add('coin__rank');
-  coinRank.textContent = `Rank #${coin.market_cap_rank}`;
+  const coinRank = generateElement('div', 'coin__rank', `Rank #${coin.market_cap_rank}`);
   coinInfoBasic.appendChild(coinRank);
 
-  const coinIdentifier = document.createElement('div');
-  coinIdentifier.classList.add('coin__identifier');
-
-  const coinImg = document.createElement('img');
-  coinImg.src = coin.image.small;
+  const coinIdentifier = generateElement('div', 'coin__identifier');
+  const coinImg = generateElement('img', false, false, {src: coin.image.small});
   coinIdentifier.appendChild(coinImg);
-
-  const coinName = document.createElement('div');
-  coinName.classList.add('coin__name');
-  coinName.textContent = coin.name;
+  const coinName = generateElement('div', 'coin__name', coin.name);
   coinIdentifier.appendChild(coinName);
-
-  const coinSymbol = document.createElement('div');
-  coinSymbol.classList.add('coin__symbol');
-  coinSymbol.textContent = coin.symbol;
+  const coinSymbol = generateElement('div', 'coin__symbol', coin.symbol);
   coinIdentifier.appendChild(coinSymbol);
   coinInfoBasic.appendChild(coinIdentifier);
+
+  const coinLinks = generateElement('div', 'coin__links');
+  const coinHomePage = generateElement('a', 'coin__link', 'Website', {href: coin.links.homepage[0], target: '_blank'});
+  coinLinks.appendChild(coinHomePage);
+  coinInfoBasic.appendChild(coinLinks);
   coinInfo.appendChild(coinInfoBasic);
-  main.appendChild(coinInfo);
 
-  const coinInfoPrice = document.createElement('div');
-  coinInfoPrice.classList.add('coin__info__price')
+  const coinInfoPrice = generateElement('div', 'coin__info__price');
 
-  const coinPriceTitle = document.createElement('div');
-  coinPriceTitle.classList.add('coin__price-title');
-  coinPriceTitle.textContent = `${coin.name} Price (${coin.symbol.toUpperCase()})`;
+  const coinPriceTitle = generateElement('div', 'coin__price__title', `${coin.name} Price (${coin.symbol.toUpperCase()})`);
   coinInfoPrice.appendChild(coinPriceTitle);
 
-  const coinPriceDiv = document.createElement('div');
-  coinPriceDiv.classList.add('coin__price-container');
+  const coinPrice = generateElement('div', 'coin__price');
+  const coinPriceValue = generateElement('div', 'coin__price__value', `$${coin.market_data.current_price.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  coinPrice.appendChild(coinPriceValue);
 
-  const coinPrice = document.createElement('div');
-  coinPrice.classList.add('coin__price');
-  coinPrice.textContent = `$${coin.market_data.current_price.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
-  coinPriceDiv.appendChild(coinPrice)
-
-  const dayChange = document.createElement('div');
-  dayChange.classList.add('coin__change');
-
+  const dayChange = generateElement('div', 'coin__price__change');
   const dayChangeIcon = document.createElement('i');
-  const dayChangeValue = document.createElement('div');
   if (coin.market_data.price_change_percentage_24h >= 0) {
     dayChangeIcon.setAttribute('class', 'fa-solid fa-caret-up');
     dayChange.style.background = '#41d9ab';
@@ -309,54 +290,41 @@ const displayCoin = (coin) => {
     dayChangeIcon.setAttribute('class', 'fa-solid fa-caret-down');
     dayChange.style.background = '#ea3943';
   }
-  dayChangeValue.textContent = `${coin.market_data.price_change_percentage_24h.toFixed(2).replace('-','')}%`;
-
+  const dayChangeValue = generateElement('div', false, `${coin.market_data.price_change_percentage_24h.toFixed(2).replace('-','')}%`);
   dayChange.appendChild(dayChangeIcon);
   dayChange.appendChild(dayChangeValue);
-  coinPriceDiv.appendChild(dayChange);
-  coinInfoPrice.appendChild(coinPriceDiv);
+  coinPrice.appendChild(dayChange);
+  coinInfoPrice.appendChild(coinPrice);
 
-  const priceRange = document.createElement('div');
-  priceRange.classList.add('coin__price-range');
+  const priceRange = generateElement('div', 'coin__price-range');
 
-  const lowPrice = document.createElement('div');
-  lowPrice.classList.add('coin__range');
-
-  const lowPriceTitle = document.createElement('div');
-  lowPriceTitle.classList.add('coin__range__title');
-  lowPriceTitle.textContent = 'Low:';
+  const lowPrice = generateElement('div', 'coin__range');
+  const lowPriceTitle = generateElement('div', 'coin__range__title', 'Low:');
   lowPrice.appendChild(lowPriceTitle);
-
-  const lowPriceValue = document.createElement('div');
-  lowPriceValue.classList.add('coin__range__value');
-  lowPriceValue.textContent = `$${coin.market_data.low_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
+  const lowPriceValue = generateElement('div', 'coin__range__value', `$${coin.market_data.low_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
   lowPrice.appendChild(lowPriceValue);
   priceRange.appendChild(lowPrice);
 
-  const rangeBar = document.createElement('div');
-  rangeBar.classList.add('coin__range__bar');
+  const priceRangeBar = generateElement('div', 'coin__range__bar');
   const barPercentage = `${(((coin.market_data.current_price.usd - coin.market_data.low_24h.usd) / (coin.market_data.high_24h.usd - coin.market_data.low_24h.usd))*100).toFixed(0)}%`;
-  console.log(barPercentage);
-  rangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${barPercentage}, #e1e1e1 ${barPercentage}, #e1e1e1 100%)`;
-  priceRange.appendChild(rangeBar);
+  priceRangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${barPercentage}, #e1e1e1 ${barPercentage}, #e1e1e1 100%)`;
+  priceRange.appendChild(priceRangeBar);
 
-  const highPrice = document.createElement('div');
-  highPrice.classList.add('coin__range');
-
-  const highPriceTitle = document.createElement('div');
-  highPriceTitle.classList.add('coin__range__title');
-  highPriceTitle.textContent = 'High:';
+  const highPrice = generateElement('div', 'coin__range');
+  const highPriceTitle = generateElement('div', 'coin__range__title', 'High:');
   highPrice.appendChild(highPriceTitle);
-
-  const highPriceValue = document.createElement('div');
-  highPriceValue.classList.add('coin__range__value');
-  highPriceValue.textContent = `$${coin.market_data.high_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
+  const highPriceValue = generateElement('div', 'coin__range__value', `$${coin.market_data.high_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
   highPrice.appendChild(highPriceValue);
   priceRange.appendChild(highPrice);
+  
+  const rangeIndicator = generateElement('div', 'coin__range__indicator', '24h');
+  priceRange.appendChild(rangeIndicator);
 
   coinInfoPrice.appendChild(priceRange)
   coinInfo.appendChild(coinInfoPrice);
+  main.appendChild(coinInfo);
 
+  // Break
   const marketCapDiv = document.createElement('div');
   marketCapDiv.classList.add('coin__indicator');
 

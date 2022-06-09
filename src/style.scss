@@ -336,24 +336,24 @@ main {
   align-items: end;
 }
 
-.coin__price-title {
+.coin__price__title {
   color: $light-text-color;
   font-weight: 600;
   font-size: 0.9rem;
 
 }
-.coin__price-container {
+.coin__price {
   display: flex;
   gap: 16px;
   align-items: center;
 }
 
-.coin__price {
+.coin__price__value {
   font-size: 2rem;
   font-weight: 700;
 }
 
-.coin__change {
+.coin__price__change {
   display: flex;
   gap: 6px;
   padding: 4px 6px;
@@ -392,9 +392,17 @@ main {
   width: 20vw;
   height: 6px;
   border-radius: 4px;
-  //background: $accent-color;
+  background: $accent-color;
 }
 
+.coin__range__indicator {
+  padding: 4px 6px;
+  background: $accent-color;
+  color: white;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  font-weight: 700;
+}
 // Footer
 footer {
   display: flex;
