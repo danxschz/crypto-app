@@ -2,6 +2,7 @@ import './normalize.css';
 import './style.scss';
 import moment from 'moment';
 import Chart from 'chart.js/auto';
+import bitcoinFetch from './a';
 
 const date = document.querySelector('.date');
 date.textContent = moment().format('dddd, MMMM Do YYYY');
@@ -77,7 +78,7 @@ const displayCoins = (coins) => {
 
     const coinName = document.createElement('div');
     coinName.classList.add('coin-row__name');
-    coinName.textContent = coin.id;
+    coinName.textContent = coin.name;
     coinIdentifierDiv.appendChild(coinName);
 
     const coinSymbol = document.createElement('div');
@@ -220,7 +221,7 @@ const setIndicators = async () => {
   displayIndicators(indicators);
 }
 
-setHome();
+//setHome();
 setIndicators();
 
 const getCoin = async (coinId) => {
@@ -234,14 +235,13 @@ const displayCoin = (coin) => {
   const category = document.createElement('div');
   category.classList.add('coin__category');
 
-  const categoryContent = document.createElement('span');
-  categoryContent.classList.add('coin__category__content');
-  categoryContent.textContent = 'Coin'
-  category.appendChild(categoryContent);
+  const categoryLink = document.createElement('a');
+  categoryLink.setAttribute('href', '');
+  categoryLink.textContent = 'Coins';
+  category.appendChild(categoryLink);
 
-  const categoryBracket = document.createElement('span');
-  categoryBracket.classList.add('coin__category__bracket');
-  categoryBracket.textContent = '>';
+  const categoryBracket = document.createElement('i');
+  categoryBracket.setAttribute('class', 'fa-solid fa-chevron-right');
   category.appendChild(categoryBracket);
 
   const categoryValue = document.createElement('span');
@@ -250,16 +250,22 @@ const displayCoin = (coin) => {
   category.appendChild(categoryValue);
   main.appendChild(category);
 
+  const coinInfo = document.createElement('div');
+  coinInfo.classList.add('coin__info');
+
+  const coinInfoBasic = document.createElement('div');
+  coinInfoBasic.classList.add('coin__info__basic');
+
   const coinRank = document.createElement('div');
   coinRank.classList.add('coin__rank');
   coinRank.textContent = `Rank #${coin.market_cap_rank}`;
-  main.appendChild(coinRank);
+  coinInfoBasic.appendChild(coinRank);
 
   const coinIdentifier = document.createElement('div');
   coinIdentifier.classList.add('coin__identifier');
 
   const coinImg = document.createElement('img');
-  coinImg.src = coin.image.large;
+  coinImg.src = coin.image.small;
   coinIdentifier.appendChild(coinImg);
 
   const coinName = document.createElement('div');
@@ -271,6 +277,174 @@ const displayCoin = (coin) => {
   coinSymbol.classList.add('coin__symbol');
   coinSymbol.textContent = coin.symbol;
   coinIdentifier.appendChild(coinSymbol);
-  main.appendChild(coinIdentifier);
+  coinInfoBasic.appendChild(coinIdentifier);
+  coinInfo.appendChild(coinInfoBasic);
+  main.appendChild(coinInfo);
 
+  const coinInfoPrice = document.createElement('div');
+  coinInfoPrice.classList.add('coin__info__price')
+
+  const coinPriceTitle = document.createElement('div');
+  coinPriceTitle.classList.add('coin__price-title');
+  coinPriceTitle.textContent = `${coin.name} Price (${coin.symbol.toUpperCase()})`;
+  coinInfoPrice.appendChild(coinPriceTitle);
+
+  const coinPriceDiv = document.createElement('div');
+  coinPriceDiv.classList.add('coin__price-container');
+
+  const coinPrice = document.createElement('div');
+  coinPrice.classList.add('coin__price');
+  coinPrice.textContent = `$${coin.market_data.current_price.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
+  coinPriceDiv.appendChild(coinPrice)
+
+  const dayChange = document.createElement('div');
+  dayChange.classList.add('coin__change');
+
+  const dayChangeIcon = document.createElement('i');
+  const dayChangeValue = document.createElement('div');
+  if (coin.market_data.price_change_percentage_24h >= 0) {
+    dayChangeIcon.setAttribute('class', 'fa-solid fa-caret-up');
+    dayChange.style.background = '#41d9ab';
+  } else {
+    dayChangeIcon.setAttribute('class', 'fa-solid fa-caret-down');
+    dayChange.style.background = '#ea3943';
+  }
+  dayChangeValue.textContent = `${coin.market_data.price_change_percentage_24h.toFixed(2).replace('-','')}%`;
+
+  dayChange.appendChild(dayChangeIcon);
+  dayChange.appendChild(dayChangeValue);
+  coinPriceDiv.appendChild(dayChange);
+  coinInfoPrice.appendChild(coinPriceDiv);
+
+  const priceRange = document.createElement('div');
+  priceRange.classList.add('coin__price-range');
+
+  const lowPrice = document.createElement('div');
+  lowPrice.classList.add('coin__range');
+
+  const lowPriceTitle = document.createElement('div');
+  lowPriceTitle.classList.add('coin__range__title');
+  lowPriceTitle.textContent = 'Low:';
+  lowPrice.appendChild(lowPriceTitle);
+
+  const lowPriceValue = document.createElement('div');
+  lowPriceValue.classList.add('coin__range__value');
+  lowPriceValue.textContent = `$${coin.market_data.low_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
+  lowPrice.appendChild(lowPriceValue);
+  priceRange.appendChild(lowPrice);
+
+  const rangeBar = document.createElement('div');
+  rangeBar.classList.add('coin__range__bar');
+  const barPercentage = `${(((coin.market_data.current_price.usd - coin.market_data.low_24h.usd) / (coin.market_data.high_24h.usd - coin.market_data.low_24h.usd))*100).toFixed(0)}%`;
+  console.log(barPercentage);
+  rangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${barPercentage}, #e1e1e1 ${barPercentage}, #e1e1e1 100%)`;
+  priceRange.appendChild(rangeBar);
+
+  const highPrice = document.createElement('div');
+  highPrice.classList.add('coin__range');
+
+  const highPriceTitle = document.createElement('div');
+  highPriceTitle.classList.add('coin__range__title');
+  highPriceTitle.textContent = 'High:';
+  highPrice.appendChild(highPriceTitle);
+
+  const highPriceValue = document.createElement('div');
+  highPriceValue.classList.add('coin__range__value');
+  highPriceValue.textContent = `$${coin.market_data.high_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`;
+  highPrice.appendChild(highPriceValue);
+  priceRange.appendChild(highPrice);
+
+  coinInfoPrice.appendChild(priceRange)
+  coinInfo.appendChild(coinInfoPrice);
+
+  const marketCapDiv = document.createElement('div');
+  marketCapDiv.classList.add('coin__indicator');
+
+  const marketCap = document.createElement('div');
+  marketCap.classList.add('coin__indicator__content');
+  marketCap.textContent = 'Market Cap'
+  marketCapDiv.appendChild(marketCap);
+
+  const marketCapValue = document.createElement('div');
+  marketCapValue.classList.add('coin__indicator__value');
+  marketCapValue.textContent = `$${coin.market_data.market_cap.usd.toLocaleString()}`;
+  marketCapDiv.appendChild(marketCapValue);
+  main.appendChild(marketCapDiv);
+
+  const volumeDiv = document.createElement('div');
+  volumeDiv.classList.add('coin__indicator');
+
+  const volume = document.createElement('div');
+  volume.classList.add('coin__indicator__content');
+  volume.textContent = '24h Volume'
+  volumeDiv.appendChild(volume);
+
+  const volumeValue = document.createElement('div');
+  volumeValue.classList.add('coin__indicator__value');
+  volumeValue.textContent = `$${coin.market_data.total_volume.usd.toLocaleString()}`;
+  volumeDiv.appendChild(volumeValue);
+  main.appendChild(volumeDiv);
+
+  const fullyDilutedDiv = document.createElement('div');
+  fullyDilutedDiv.classList.add('coin__indicator');
+
+  const fullyDiluted = document.createElement('div');
+  fullyDiluted.classList.add('coin__indicator__content');
+  fullyDiluted.textContent = 'Fully Diluted Valuation';
+  fullyDilutedDiv.appendChild(fullyDiluted);
+
+  const fullyDilutedValue = document.createElement('div');
+  fullyDilutedValue.classList.add('coin__indicator__value');
+  fullyDilutedValue.textContent = `$${coin.market_data.fully_diluted_valuation.usd.toLocaleString()}`;
+  fullyDilutedDiv.appendChild(fullyDilutedValue);
+  main.appendChild(fullyDilutedDiv);
+
+  const circulatingSupplyDiv = document.createElement('div');
+  circulatingSupplyDiv.classList.add('coin__indicator');
+
+  const circulatingSupply = document.createElement('div');
+  circulatingSupply.classList.add('coin__indicator__content');
+  circulatingSupply.textContent = 'Circulating Supply';
+  circulatingSupplyDiv.appendChild(circulatingSupply);
+
+  const circulatingSupplyValue = document.createElement('div');
+  circulatingSupplyValue.classList.add('coin__indicator__value');
+  circulatingSupplyValue.textContent = `${coin.market_data.circulating_supply.toLocaleString()}`;
+  circulatingSupplyDiv.appendChild(circulatingSupplyValue);
+  main.appendChild(circulatingSupplyDiv);
+
+  const totalSupplyDiv = document.createElement('div');
+  totalSupplyDiv.classList.add('coin__indicator');
+
+  const totalSupply = document.createElement('div');
+  totalSupply.classList.add('coin__indicator__content');
+  totalSupply.textContent = 'Total Supply';
+  totalSupplyDiv.appendChild(totalSupply);
+
+  const totalSupplyValue = document.createElement('div');
+  totalSupplyValue.classList.add('coin__indicator__value');
+  totalSupplyValue.textContent = `${coin.market_data.total_supply.toLocaleString()}`;
+  totalSupplyDiv.appendChild(totalSupplyValue);
+  main.appendChild(totalSupplyDiv);
+
+  const maxSupplyDiv = document.createElement('div');
+  maxSupplyDiv.classList.add('coin__indicator');
+
+  const maxSupply = document.createElement('div');
+  maxSupply.classList.add('coin__indicator__content');
+  maxSupply.textContent = 'Max Supply';
+  maxSupplyDiv.appendChild(maxSupply);
+
+  const maxSupplyValue = document.createElement('div');
+  maxSupplyValue.classList.add('coin__indicator__value');
+  maxSupplyValue.textContent = `${coin.market_data.max_supply.toLocaleString()}`;
+  maxSupplyDiv.appendChild(maxSupplyValue);
+  main.appendChild(maxSupplyDiv);
 }
+
+const setCoin = async () => {
+  //const coin = await getCoin('bitcoin');
+  displayCoin(bitcoinFetch);
+}
+
+setCoin();

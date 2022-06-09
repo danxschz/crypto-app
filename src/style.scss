@@ -1,12 +1,14 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 // Variables
 $primary-color: #f4f7f9;
 $accent-color: #21c9b8;
 $positive-color: #41d9ab;
-$negative-color: #dc3434;
+$negative-color: #ea3943;
 $text-color: #262a41;
+$light-text-color: #262a4180;
 $system-font-stack: -apple-system, BlinkMacSystemFont, avenir next, avenir,
   segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
 
@@ -18,7 +20,7 @@ $system-font-stack: -apple-system, BlinkMacSystemFont, avenir next, avenir,
 }
 
 body {
-  font-family: 'Mulish', $system-font-stack;
+  font-family: 'Inter', $system-font-stack;
   color: $text-color;
 }
 
@@ -141,7 +143,8 @@ header {
   transform: rotate(360deg) scale(1.2);
 }
 
-// Main
+// Main - Coin rows
+/*
 main {
   display: flex;
   flex-direction: column;
@@ -149,7 +152,7 @@ main {
   padding: 32px 8vw;
   background: $primary-color;
 }
-
+*/
 .description {
   display: flex;
   flex-direction: column;
@@ -222,10 +225,6 @@ td {
   }
 }
 
-.coin-row__name {
-  text-transform: capitalize;
-}
-
 .coin-row__symbol {
   text-transform: uppercase;
   font-weight: 400;
@@ -253,6 +252,147 @@ td {
 .coin-row__last-days {
   width: clamp(120px, 15vw, 700px);
   padding: 2px 16px;
+}
+
+// Main - Single coin
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px 4vw;
+  background: $primary-color;
+}
+
+.coin__category {
+  display: flex;
+  gap: 12px;
+  font-weight: 600;
+  align-items: center;
+
+  a {
+    color: $accent-color;
+    text-decoration: none;
+  }
+
+  .fa-chevron-right {
+    color: $accent-color;
+    font-size: 0.7rem;
+  }  
+}
+
+.coin__category__value {
+  color: $light-text-color;
+}
+
+.coin__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.coin__info__basic {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.coin__rank {
+  padding: 6px 6px;
+  background: $accent-color;
+  font-size: 0.9rem;
+  color: white;
+  font-weight: 700;
+  border-radius: 4px;
+  width: max-content;
+}
+
+.coin__identifier {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-weight: 700;
+
+  img {
+    width: 40px;
+  }
+}
+
+.coin__name {
+  font-size: 2rem;
+}
+
+.coin__symbol {
+  padding: 4px 6px;
+  background: $accent-color;
+  color: white;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.coin__info__price {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: end;
+}
+
+.coin__price-title {
+  color: $light-text-color;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+}
+.coin__price-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.coin__price {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.coin__change {
+  display: flex;
+  gap: 6px;
+  padding: 4px 6px;
+  background: $accent-color;
+  color: white;
+  border-radius: 4px;
+  font-weight: 700;
+
+  .fa-caret-up {
+    align-self: flex-end;
+  }
+}
+
+.coin__price-range {
+  display: flex;
+  gap: 8px;
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+.coin__range {
+  display: flex;
+  gap: 4px;
+}
+
+.coin__range__title {
+  color: $light-text-color;
+  font-weight: 500;
+}
+
+.coin__range__value {
+  font-weight: 700;
+}
+
+.coin__range__bar {
+  width: 20vw;
+  height: 6px;
+  border-radius: 4px;
+  //background: $accent-color;
 }
 
 // Footer

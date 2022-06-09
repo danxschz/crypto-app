@@ -27,11 +27,26 @@
   </header>
 
   <main>
-    <div class="category">Coins > {Coin}</div>
-    <div class="rank">Rank {#1}</div>
-    <div class="identifier">imagen nombre y symbol</div>
-    precio y porcentaje
+    <div class="description">
+      <h1>Cryptocurrency Prices by Market Cap</h1>
+      <p>The global crypto market cap is <span class="description__market-cap"></span>, a <span class="description__percentage"></span> <span class="description__change"></span> over the last day.</p>
+    </div>
 
+    <table>
+      <caption>Cryptocurrency prices by market cap</caption>
+      <thead>
+        <tr>
+          <th scope="col" class="outer-left">#</th>
+          <th scope="col" class="coin-th">Coin</th>
+          <th scope="col">Price</th>
+          <th scope="col">24h</th>
+          <th scope="col">7d</th>
+          <th scope="col">Market Cap</th>
+          <th scope="col" class="outer-right">Last 7 Days</th>
+        </tr>
+      </thead>
+      <tbody class="coins"></tbody>
+    </table>
   </main>
 
   <footer>
