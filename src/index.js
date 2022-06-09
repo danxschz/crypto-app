@@ -267,8 +267,35 @@ const displayCoin = (coin) => {
   coinInfoBasic.appendChild(coinIdentifier);
 
   const coinLinks = generateElement('div', 'coin__links');
-  const coinHomePage = generateElement('a', 'coin__link', 'Website', {href: coin.links.homepage[0], target: '_blank'});
-  coinLinks.appendChild(coinHomePage);
+
+  const coinWebsite = generateElement('a', 'coin__link', false, {href: coin.links.homepage[0], target: '_blank'});
+  const coinWebsiteIcon = generateElement('i', 'fa-solid fa-link');
+  coinWebsite.appendChild(coinWebsiteIcon);
+  const coinWebsiteValue = generateElement('span', false, 'Website')
+  coinWebsite.appendChild(coinWebsiteValue);
+  coinLinks.appendChild(coinWebsite);
+
+  const coinExplorer = generateElement('a', 'coin__link', false, {href: coin.links.blockchain_site[0], target: '_blank'});
+  const coinExplorerIcon = generateElement('i', 'fa-solid fa-magnifying-glass');
+  coinExplorer.appendChild(coinExplorerIcon);
+  const coinExplorerValue = generateElement('span', false, 'Explorer')
+  coinExplorer.appendChild(coinExplorerValue);
+  coinLinks.appendChild(coinExplorer);
+
+  const coinCommunity = generateElement('a', 'coin__link', false, {href: coin.links.official_forum_url[0], target: '_blank'});
+  const coinCommunityIcon = generateElement('i', 'fa-solid fa-user');
+  coinCommunity.appendChild(coinCommunityIcon);
+  const coinCommunityValue = generateElement('span', false, 'Community')
+  coinCommunity.appendChild(coinCommunityValue);
+  coinLinks.appendChild(coinCommunity);
+
+  const coinSourceCode = generateElement('a', 'coin__link', false, {href: coin.links.repos_url.github[0], target: '_blank'});
+  const coinSourceCodeIcon = generateElement('i', 'fa-solid fa-code');
+  coinSourceCode.appendChild(coinSourceCodeIcon);
+  const coinSourceCodeValue = generateElement('span', false, 'Source Code')
+  coinSourceCode.appendChild(coinSourceCodeValue);
+  coinLinks.appendChild(coinSourceCode);
+
   coinInfoBasic.appendChild(coinLinks);
   coinInfo.appendChild(coinInfoBasic);
 
