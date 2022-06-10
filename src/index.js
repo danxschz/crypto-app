@@ -333,8 +333,8 @@ const displayCoin = (coin) => {
   priceRange.appendChild(lowPrice);
 
   const priceRangeBar = generateElement('div', 'coin__range__bar');
-  const barPercentage = `${(((coin.market_data.current_price.usd - coin.market_data.low_24h.usd) / (coin.market_data.high_24h.usd - coin.market_data.low_24h.usd))*100).toFixed(0)}%`;
-  priceRangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${barPercentage}, #e1e1e1 ${barPercentage}, #e1e1e1 100%)`;
+  const priceBarPercentage = `${(((coin.market_data.current_price.usd - coin.market_data.low_24h.usd) / (coin.market_data.high_24h.usd - coin.market_data.low_24h.usd))*100).toFixed(0)}%`;
+  priceRangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${priceBarPercentage}, #e1e1e1 ${priceBarPercentage}, #e1e1e1 100%)`;
   priceRange.appendChild(priceRangeBar);
 
   const highPrice = generateElement('div', 'coin__range');
@@ -351,95 +351,85 @@ const displayCoin = (coin) => {
   coinInfo.appendChild(coinInfoPrice);
   main.appendChild(coinInfo);
 
-  // Break
-  const marketCapDiv = document.createElement('div');
-  marketCapDiv.classList.add('coin__indicator');
+  const coinIndicators = generateElement('div', 'coin__indicators');
 
-  const marketCap = document.createElement('div');
-  marketCap.classList.add('coin__indicator__content');
-  marketCap.textContent = 'Market Cap'
-  marketCapDiv.appendChild(marketCap);
+  const marketCap = generateElement('div', 'coin__indicator-section');
+  const marketCapIndicator = generateElement('div', 'coin__indicator');
+  const marketCapTitle = generateElement('div', 'coin__indicator__title', 'Market Cap');
+  marketCapIndicator.appendChild(marketCapTitle);
+  const marketCapValue = generateElement('div', 'coin__indicator__value', `$${coin.market_data.market_cap.usd.toLocaleString()}`);
+  marketCapIndicator.appendChild(marketCapValue);
+  marketCap.appendChild(marketCapIndicator);
+  coinIndicators.appendChild(marketCap);
 
-  const marketCapValue = document.createElement('div');
-  marketCapValue.classList.add('coin__indicator__value');
-  marketCapValue.textContent = `$${coin.market_data.market_cap.usd.toLocaleString()}`;
-  marketCapDiv.appendChild(marketCapValue);
-  main.appendChild(marketCapDiv);
+  const fullyDiluted = generateElement('div', 'coin__indicator-section');
+  const fullyDilutedIndicator = generateElement('div', 'coin__indicator');
+  const fullyDilutedTitle = generateElement('div', 'coin__indicator__title', 'Fully Diluted Valuation');
+  fullyDilutedIndicator.appendChild(fullyDilutedTitle);
+  const fullyDilutedValue = generateElement('div', 'coin__indicator__value', `$${coin.market_data.fully_diluted_valuation.usd.toLocaleString()}`);
+  fullyDilutedIndicator.appendChild(fullyDilutedValue);
+  fullyDiluted.appendChild(fullyDilutedIndicator);
+  coinIndicators.appendChild(fullyDiluted);
 
-  const volumeDiv = document.createElement('div');
-  volumeDiv.classList.add('coin__indicator');
+  const volume = generateElement('div', 'coin__indicator-section');
+  const volumeIndicator = generateElement('div', 'coin__indicator');
+  const volumeTitle = generateElement('div', 'coin__indicator__title', '24h Volume');
+  volumeIndicator.appendChild(volumeTitle);
+  const volumeValue = generateElement('div', 'coin__indicator__value', `$${coin.market_data.total_volume.usd.toLocaleString()}`);
+  volumeIndicator.appendChild(volumeValue);
+  volume.appendChild(volumeIndicator);
 
-  const volume = document.createElement('div');
-  volume.classList.add('coin__indicator__content');
-  volume.textContent = '24h Volume'
-  volumeDiv.appendChild(volume);
+  const volumeByMarketIndicator = generateElement('div', 'coin__indicator');
+  const volumeByMarketTitle = generateElement('div', 'coin__indicator__title', 'Volume / Market Cap');
+  volumeByMarketIndicator.appendChild(volumeByMarketTitle);
+  const volumeByMarketValue = generateElement('div', 'coin__indicator__value', `${(coin.market_data.total_volume.usd / coin.market_data.market_cap.usd).toLocaleString(undefined, {minimumFractionDigits: 5})}`);
+  volumeByMarketIndicator.appendChild(volumeByMarketValue);
+  volume.appendChild(volumeByMarketIndicator);
+  coinIndicators.appendChild(volume);
 
-  const volumeValue = document.createElement('div');
-  volumeValue.classList.add('coin__indicator__value');
-  volumeValue.textContent = `$${coin.market_data.total_volume.usd.toLocaleString()}`;
-  volumeDiv.appendChild(volumeValue);
-  main.appendChild(volumeDiv);
+  const supply = generateElement('div', 'coin__indicator-section');
+  const circulatingSupplyIndicator = generateElement('div', 'coin__indicator');
+  const circulatingSupplyTitle = generateElement('div', 'coin__indicator__title', 'Circulating Supply');
+  circulatingSupplyIndicator.appendChild(circulatingSupplyTitle);
+  const circulatingSupplyValueDiv = generateElement('div', 'coin__indicator_horizontal');
+  const circulatingSupplyValue = generateElement('div', 'coin__indicator__value', `${coin.market_data.circulating_supply.toLocaleString()} ${coin.symbol.toUpperCase()}`);
+  circulatingSupplyValueDiv.appendChild(circulatingSupplyValue);
+  circulatingSupplyIndicator.appendChild(circulatingSupplyValueDiv);
 
-  const fullyDilutedDiv = document.createElement('div');
-  fullyDilutedDiv.classList.add('coin__indicator');
+  const circulatingSupplyBar = generateElement('div', 'coin__supply__bar');
+  const supplyBarPercentage = `${((coin.market_data.circulating_supply / coin.market_data.max_supply)*100).toFixed(0)}%`;
+  circulatingSupplyBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${supplyBarPercentage}, #e1e1e1 ${supplyBarPercentage}, #e1e1e1 100%)`;
+  circulatingSupplyIndicator.appendChild(circulatingSupplyBar);
 
-  const fullyDiluted = document.createElement('div');
-  fullyDiluted.classList.add('coin__indicator__content');
-  fullyDiluted.textContent = 'Fully Diluted Valuation';
-  fullyDilutedDiv.appendChild(fullyDiluted);
+  const supplyBarPercentageElement = generateElement('div', 'coin__indicator__title', supplyBarPercentage);
+  circulatingSupplyValueDiv.appendChild(supplyBarPercentageElement);
+  supply.appendChild(circulatingSupplyIndicator);
 
-  const fullyDilutedValue = document.createElement('div');
-  fullyDilutedValue.classList.add('coin__indicator__value');
-  fullyDilutedValue.textContent = `$${coin.market_data.fully_diluted_valuation.usd.toLocaleString()}`;
-  fullyDilutedDiv.appendChild(fullyDilutedValue);
-  main.appendChild(fullyDilutedDiv);
+  const totalMaxSupply = generateElement('div', 'coin__indicator');
 
-  const circulatingSupplyDiv = document.createElement('div');
-  circulatingSupplyDiv.classList.add('coin__indicator');
+  const totalSupplyIndicator = generateElement('div', 'coin__indicator_horizontal');
+  const totalSupplyTitle = generateElement('div', 'coin__indicator__title', 'Total Supply');
+  totalSupplyIndicator.appendChild(totalSupplyTitle);
+  const totalSupplyValue = generateElement('div', 'coin__indicator__value', `${coin.market_data.total_supply.toLocaleString()}`);
+  totalSupplyIndicator.appendChild(totalSupplyValue);
+  totalMaxSupply.appendChild(totalSupplyIndicator);
 
-  const circulatingSupply = document.createElement('div');
-  circulatingSupply.classList.add('coin__indicator__content');
-  circulatingSupply.textContent = 'Circulating Supply';
-  circulatingSupplyDiv.appendChild(circulatingSupply);
+  const maxSupplyIndicator = generateElement('div', 'coin__indicator_horizontal');
+  const maxSupplyTitle = generateElement('div', 'coin__indicator__title', 'Max Supply');
+  maxSupplyIndicator.appendChild(maxSupplyTitle);
+  const maxSupplyValue = generateElement('div', 'coin__indicator__value', `${coin.market_data.max_supply.toLocaleString()}`);
+  maxSupplyIndicator.appendChild(maxSupplyValue);
+  totalMaxSupply.appendChild(maxSupplyIndicator);
+  supply.appendChild(totalMaxSupply);
 
-  const circulatingSupplyValue = document.createElement('div');
-  circulatingSupplyValue.classList.add('coin__indicator__value');
-  circulatingSupplyValue.textContent = `${coin.market_data.circulating_supply.toLocaleString()}`;
-  circulatingSupplyDiv.appendChild(circulatingSupplyValue);
-  main.appendChild(circulatingSupplyDiv);
-
-  const totalSupplyDiv = document.createElement('div');
-  totalSupplyDiv.classList.add('coin__indicator');
-
-  const totalSupply = document.createElement('div');
-  totalSupply.classList.add('coin__indicator__content');
-  totalSupply.textContent = 'Total Supply';
-  totalSupplyDiv.appendChild(totalSupply);
-
-  const totalSupplyValue = document.createElement('div');
-  totalSupplyValue.classList.add('coin__indicator__value');
-  totalSupplyValue.textContent = `${coin.market_data.total_supply.toLocaleString()}`;
-  totalSupplyDiv.appendChild(totalSupplyValue);
-  main.appendChild(totalSupplyDiv);
-
-  const maxSupplyDiv = document.createElement('div');
-  maxSupplyDiv.classList.add('coin__indicator');
-
-  const maxSupply = document.createElement('div');
-  maxSupply.classList.add('coin__indicator__content');
-  maxSupply.textContent = 'Max Supply';
-  maxSupplyDiv.appendChild(maxSupply);
-
-  const maxSupplyValue = document.createElement('div');
-  maxSupplyValue.classList.add('coin__indicator__value');
-  maxSupplyValue.textContent = `${coin.market_data.max_supply.toLocaleString()}`;
-  maxSupplyDiv.appendChild(maxSupplyValue);
-  main.appendChild(maxSupplyDiv);
+  coinIndicators.appendChild(supply);
+  main.appendChild(coinIndicators);
 }
 
 const setCoin = async () => {
-  //const coin = await getCoin('bitcoin');
-  displayCoin(bitcoinFetch);
+  const coin = await getCoin('bitcoin');
+  //displayCoin(bitcoinFetch);
+  displayCoin(coin);
 }
 
 setCoin();
