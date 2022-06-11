@@ -17,8 +17,34 @@ const styleChangePercentage = (changePercentage, iconElement, valueElement) => {
 }
 
 const displayCoinList = (coinList) => {
-  const coinsTable = generateElement('tbody', 'coins');
+  const main = document.querySelector('main');
+  const table = document.createElement('table');
 
+  const tableCaption = generateElement('caption', false, 'Cryptocurrency Prices by Market Cap');
+  table.appendChild(tableCaption);
+
+  const tableHead = document.createElement('thead');
+  const tableHeadRow = document.createElement('tr');
+
+  const tableHeaderRank = generateElement('th', 'outer-left', '#', {scope: 'col'});
+  tableHeadRow.append(tableHeaderRank);
+  const tableHeaderCoin = generateElement('th', 'coin-th', 'Coin', {scope: 'col'});
+  tableHeadRow.append(tableHeaderCoin);
+  const tableHeaderPrice = generateElement('th', false, 'Price', {scope: 'col'});
+  tableHeadRow.append(tableHeaderPrice);
+  const tableHeaderDay = generateElement('th', false, '24h', {scope: 'col'});
+  tableHeadRow.append(tableHeaderDay);
+  const tableHeaderWeek = generateElement('th', false, '7d', {scope: 'col'});
+  tableHeadRow.append(tableHeaderWeek);
+  const tableHeaderMarket = generateElement('th', false, 'Market Cap', {scope: 'col'});
+  tableHeadRow.append(tableHeaderMarket);
+  const tableHeaderLastDays = generateElement('th', 'outer-right', 'Last 7 Days', {scope: 'col'});
+  tableHeadRow.append(tableHeaderLastDays);
+
+  tableHead.appendChild(tableHeadRow);
+  table.appendChild(tableHead);
+
+  const tableBody = generateElement('tbody', 'coins');
   coinList.forEach((coin) => {
     const coinRow = generateElement('tr', 'coin-row');
 
@@ -119,13 +145,16 @@ const displayCoinList = (coinList) => {
 
     lastDays.appendChild(ctx);
     coinRow.appendChild(lastDays);
-    coinsTable.appendChild(coinRow);
+    tableBody.appendChild(coinRow);
   });
+
+  table.appendChild(tableBody);
+  main.appendChild(table);
 }
 
 const setCoinList = async () => {
-  //const indicators = await getIndicators();
-  //displayMarketCap(indicators);
   const coinList = await getCoinList();
   displayCoinList(coinList);
 }
+
+export default setCoinList;
