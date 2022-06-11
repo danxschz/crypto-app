@@ -224,8 +224,13 @@ const setIndicators = async () => {
 //setHome();
 setIndicators();
 
-const getCoin = async (coinId) => {
-  const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=true`, { mode: 'cors' });
+const getCoinData = async (coinId) => {
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`, { mode: 'cors' });
+  return response.json();
+}
+
+const getCoinChart = async (coinId) => {
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`, { mode: 'cors' });
   return response.json();
 }
 
@@ -239,7 +244,7 @@ const generateElement = (type, elementClass, textContent, attributes) => {
   return element;
 }
 
-const displayCoin = (coin) => {
+const displayCoin = (coin, chart) => {
   const main = document.querySelector('main');
 
   const category = generateElement('div', 'coin__category');
@@ -425,6 +430,71 @@ const displayCoin = (coin) => {
   coinIndicators.appendChild(supply);
   main.appendChild(coinIndicators);
 
+  const coinChartStats = generateElement('div', 'coin__chart-stats');
+
+  const coinChartSection = generateElement('div', 'coin__chart');
+  const coinChartTitle = generateElement('div', 'coin__chart__title', `${coin.name} Price Chart (${coin.symbol.toUpperCase()}/USD)`);
+  coinChartSection.appendChild(coinChartTitle);
+
+  const coinChart = generateElement('div', 'xd'); 
+  const ctx = document.createElement('canvas');
+  const chartData = [];
+  const labels = [];
+  chart.prices.forEach((price) => {
+    chartData.push(price[1]);
+    labels.push(moment(price[0]).format('ddd DD MMM YYYY, HH:mm:ss'));
+  })
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      data: chartData,
+      borderColor: '#21c9b8',
+      fill: {
+        target: 'origin',
+        above: '#21c9b833', 
+      },
+      tension: 0.1
+    }]
+  };
+
+  new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      borderWidth: 2,
+      plugins: {
+        legend: {
+           display: false
+        }
+      },
+      scales: {
+        x: {
+          display: false
+        },
+        y: {
+          ticks: {
+            // Include a dollar sign in the ticks
+            callback: function(value, index, ticks) {
+              return '$' + value.toLocaleString();
+            }
+          }
+        }
+      },
+      elements: {
+        point:{
+          radius: 0
+        }
+      },
+    }
+  });
+
+  coinChart.appendChild(ctx);
+  coinChartSection.appendChild(coinChart)
+  coinChartStats.appendChild(coinChartSection);
+
   const coinStatistics = generateElement('div', 'coin__statistics');
   const coinStatisticsTitle = generateElement('div', 'coin__statistics__title', `${coin.symbol.toUpperCase()} Price Statistics`);
   coinStatistics.appendChild(coinStatisticsTitle);
@@ -489,7 +559,7 @@ const displayCoin = (coin) => {
   const atlStatisticValueDiv = generateElement('div', 'coin__statistic__value_div');
   const atlStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.atl.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
   atlStatisticValueDiv.appendChild(atlStatisticValue);
-  const atlStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(coin.market_data.atl_date.usd).format("MMMM DD, YYYY")} (${moment(coin.market_data.atl_date.usd).fromNow()})`);
+  const atlStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(coin.market_data.atl_date.usd).format('MMMM DD, YYYY')} (${moment(coin.market_data.atl_date.usd).fromNow()})`);
   atlStatisticValueDiv.appendChild(atlStatisticDate);
   atlStatistic.appendChild(atlStatisticValueDiv);
   coinStatistics.appendChild(atlStatistic);
@@ -502,18 +572,20 @@ const displayCoin = (coin) => {
   const athStatisticValueDiv = generateElement('div', 'coin__statistic__value_div');
   const athStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.ath.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
   athStatisticValueDiv.appendChild(athStatisticValue);
-  const athStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(coin.market_data.ath_date.usd).format("MMMM DD, YYYY")} (${moment(coin.market_data.ath_date.usd).fromNow()})`);
+  const athStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(coin.market_data.ath_date.usd).format('MMMM DD, YYYY')} (${moment(coin.market_data.ath_date.usd).fromNow()})`);
   athStatisticValueDiv.appendChild(athStatisticDate);
   athStatistic.appendChild(athStatisticValueDiv);
   coinStatistics.appendChild(athStatistic);
 
-  main.appendChild(coinStatistics);
+  coinChartStats.appendChild(coinStatistics);
+  main.appendChild(coinChartStats);
 }
 
 const setCoin = async () => {
-  const coin = await getCoin('bitcoin');
+  const coinData = await getCoinData('bitcoin');
+  const coinChart = await getCoinChart('bitcoin');
   //displayCoin(bitcoinFetch);
-  displayCoin(coin);
+  displayCoin(coinData, coinChart);
 }
 
 setCoin();

@@ -54,7 +54,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 4vw;
+  padding: 20px 3vw;
   position: relative;
   box-shadow: 0 2px 4px -4px rgb(212, 212, 212);
 
@@ -474,7 +474,7 @@ footer {
 
   a {
     color: $accent-color;
-    font-weight: 700;
+    font-weight: 600;
     text-decoration: none;
 
     &:hover {
@@ -496,7 +496,7 @@ footer {
 
 .indicator__value {
   color: $accent-color;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .coin__statistics {
@@ -541,5 +541,24 @@ footer {
   font-size: 0.9rem;
 }
 
-.coin__statistic__title {
+.coin__chart-stats {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 32px;
+}
+
+.coin__chart {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 20px;
+}
+
+.coin__chart__title {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.xd {
+  height: 100%;
 }
