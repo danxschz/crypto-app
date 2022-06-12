@@ -13,6 +13,7 @@ const getCoinChart = async (coinId) => {
 }
 
 const displayCoin = (coin, chart) => {
+  document.title = `${coin.name} - Off The Grid`;
   const main = document.querySelector('main');
 
   const category = generateElement('div', 'coin__category');
