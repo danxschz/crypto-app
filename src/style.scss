@@ -286,12 +286,12 @@ td {
 
 .coin__rank {
   padding: 6px 6px;
-  background: $accent-color;
-  font-size: 0.9rem;
-  color: white;
-  font-weight: 700;
   border-radius: 4px;
   width: max-content;
+  background: $accent-color;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .coin__identifier {
@@ -309,11 +309,30 @@ td {
 
 .coin__symbol {
   padding: 4px 6px;
+  border-radius: 4px;
   background: $accent-color;
   color: white;
   font-size: 0.9rem;
-  border-radius: 4px;
   text-transform: uppercase;
+}
+
+.coin__links {
+  @include horizontal-flex(8px);
+}
+
+.coin__link {
+  @include horizontal-flex(8px, center);
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: $accent-color;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.8rem;
+
+  &:hover {
+    opacity: 0.9;
+  }
 }
 
 .coin__info__price {
@@ -326,6 +345,7 @@ td {
   font-size: 0.9rem;
 
 }
+
 .coin__price {
   @include horizontal-flex(16px, center);
 }
@@ -338,9 +358,9 @@ td {
 .coin__price__change {
   @include horizontal-flex(6px);
   padding: 4px 6px;
+  border-radius: 4px;
   background: $accent-color;
   color: white;
-  border-radius: 4px;
   font-weight: 700;
 
   .fa-caret-up {
@@ -375,30 +395,11 @@ td {
 
 .coin__range__indicator {
   padding: 4px 6px;
+  border-radius: 4px;
   background: $accent-color;
   color: white;
   font-size: 0.8rem;
-  border-radius: 4px;
   font-weight: 600;
-}
-
-.coin__links {
-  @include horizontal-flex(8px);
-}
-
-.coin__link {
-  @include horizontal-flex(8px, center);
-  padding: 6px 10px;
-  color: white;
-  border-radius: 4px;
-  font-weight: 600;
-  text-decoration: none;
-  background: $accent-color;
-  font-size: 0.8rem;
-
-  &:hover {
-    opacity: 0.9;
-  }
 }
 
 .coin__indicators {
@@ -407,8 +408,8 @@ td {
 }
 
 .coin__indicator-section {
-  padding: 24px 0;
   @include vertical-flex(40px, null, space-between);
+  padding: 24px 0;
 }
 
 .coin__indicator {
@@ -434,41 +435,6 @@ td {
   background: $accent-color;
 }
 
-.coin__statistics {
-  @include vertical-flex(20px);
-  background: $accent-color;
-  color: white;
-  border-radius: 4px;
-  padding: 20px;
-}
-
-.coin__statistics__title {
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.coin__statistic {
-  @include horizontal-flex(null, center, space-between);
-  font-weight: 600;
-}
-
-.coin__statistic__value_div {
-  @include vertical-flex(8px, flex-end);
-}
-
-.coin__statistics__separator {
-  width: 100%;
-  height: 1px;
-  background: white;
-  opacity: 0.7;
-}
-
-.coin__statistic__date {
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
 .coin__chart-stats {
   display: grid;
   grid-template-columns: 1.8fr 1fr;
@@ -487,6 +453,41 @@ td {
 
 .coin__chart {
   height: 100%;
+}
+
+.coin__statistics {
+  @include vertical-flex(20px);
+  padding: 20px;
+  border-radius: 4px;
+  background: $accent-color;
+  color: white;
+}
+
+.coin__statistics__title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.coin__statistics__separator {
+  width: 100%;
+  height: 1px;
+  background: white;
+  opacity: 0.7;
+}
+
+.coin__statistic {
+  @include horizontal-flex(null, center, space-between);
+  font-weight: 600;
+}
+
+.coin__statistic__value_div {
+  @include vertical-flex(8px, flex-end);
+}
+
+.coin__statistic__date {
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 // Footer
