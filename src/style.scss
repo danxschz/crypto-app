@@ -12,6 +12,22 @@ $light-text-color: #262a4180;
 $system-font-stack: -apple-system, BlinkMacSystemFont, avenir next, avenir,
   segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
 
+// Mixins
+@mixin horizontal-flex($gap: null, $align: null, $justify: null) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+@mixin vertical-flex($gap: null, $align: null, $justify: null) {
+  display: flex;
+  flex-direction: column;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
 // General rules
 *,
 *::before,
@@ -24,14 +40,9 @@ body {
   color: $text-color;
 }
 
-h1,
-ul {
+h1 {
   margin: 0;
   padding: 0;
-}
-
-ul {
-  list-style: none;
 }
 
 p {
@@ -51,9 +62,7 @@ body {
 
 // Header
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include horizontal-flex(null, center, space-between);
   padding: 20px 3vw;
   position: relative;
   box-shadow: 0 2px 4px -4px rgb(212, 212, 212);
@@ -65,9 +74,7 @@ header {
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  @include horizontal-flex(12px, center);
 
   img {
     width: 50px;
@@ -82,8 +89,7 @@ header {
 }
 
 .search {
-  display: flex;
-  gap: 1px;
+  @include horizontal-flex(1px);
   width: 40%;
   border-radius: 4px;
   background: $primary-color;
@@ -126,9 +132,7 @@ header {
 }
 
 .date-git {
-  display: flex;
-  align-items: center;
-  gap: 24px;
+  @include horizontal-flex(24px, center);
 }
 
 .date {
@@ -146,17 +150,13 @@ header {
 
 // Main - Coin list
 .main-list {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  @include vertical-flex(24px);
   padding: 24px 3vw;
   background: $primary-color;
 }
 
 .description {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @include vertical-flex(16px);
 
   h1 {
     font-size: 1.7rem;
@@ -181,8 +181,8 @@ caption {
 
 th {
   padding: 8px 16px;
-  color: white;
   background: $accent-color;
+  color: white;
 }
 
 .coin-th {
@@ -216,9 +216,7 @@ td {
 }
 
 .coin-row__identifier {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+  @include horizontal-flex(10px, center);
 
   img {
     width: 30px;
@@ -232,9 +230,7 @@ td {
 }
 
 .coin-row__change {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  @include horizontal-flex(10px, null, center);
 
   .fa-caret-up {
     align-self: flex-end;
@@ -256,18 +252,14 @@ td {
 
 // Main - Single coin
 .main-single {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
+  @include vertical-flex(48px);
   padding: 24px 3vw;
   background: $primary-color;
 }
 
 .coin__category {
-  display: flex;
-  gap: 12px;
+  @include horizontal-flex(12px, center);
   font-weight: 600;
-  align-items: center;
 
   a {
     color: $accent-color;
@@ -285,15 +277,11 @@ td {
 }
 
 .coin__info {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  @include horizontal-flex(null, flex-end, space-between);
 }
 
 .coin__info__basic {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @include vertical-flex(16px);
 }
 
 .coin__rank {
@@ -307,9 +295,7 @@ td {
 }
 
 .coin__identifier {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+  @include horizontal-flex(16px, center);
   font-weight: 700;
 
   img {
@@ -331,10 +317,7 @@ td {
 }
 
 .coin__info__price {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: end;
+  @include vertical-flex(16px, flex-end);
 }
 
 .coin__price__title {
@@ -344,9 +327,7 @@ td {
 
 }
 .coin__price {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+  @include horizontal-flex(16px, center);
 }
 
 .coin__price__value {
@@ -355,8 +336,7 @@ td {
 }
 
 .coin__price__change {
-  display: flex;
-  gap: 6px;
+  @include horizontal-flex(6px);
   padding: 4px 6px;
   background: $accent-color;
   color: white;
@@ -369,15 +349,12 @@ td {
 }
 
 .coin__price-range {
-  display: flex;
-  gap: 8px;
+  @include horizontal-flex(8px, center);
   font-size: 0.9rem;
-  align-items: center;
 }
 
 .coin__range {
-  display: flex;
-  gap: 4px;
+  @include horizontal-flex(4px);
 }
 
 .coin__range__title {
@@ -406,14 +383,11 @@ td {
 }
 
 .coin__links {
-  display: flex;
-  gap: 8px;
+  @include horizontal-flex(8px);
 }
 
 .coin__link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  @include horizontal-flex(8px, center);
   padding: 6px 10px;
   color: white;
   border-radius: 4px;
@@ -434,24 +408,17 @@ td {
 
 .coin__indicator-section {
   padding: 24px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 40px;
+  @include vertical-flex(40px, null, space-between);
 }
 
 .coin__indicator {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  @include vertical-flex(8px);
   font-weight: 600;
   font-size: 0.9rem;
 }
 
 .coin__indicator_horizontal {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
+  @include horizontal-flex(8px, null, space-between);
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -466,47 +433,13 @@ td {
   border-radius: 4px;
   background: $accent-color;
 }
-// Footer
-footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 2vw;
-
-  a {
-    color: $accent-color;
-    font-weight: 600;
-    text-decoration: none;
-
-    &:hover {
-      opacity: 0.9;
-    }
-  }
-}
-
-.indicators {
-  display: flex;
-  gap: 18px;
-}
-
-.indicator {
-  display: flex;
-  gap: 5px;
-  font-size: 0.9rem;
-}
-
-.indicator__value {
-  color: $accent-color;
-  font-weight: 600;
-}
 
 .coin__statistics {
-  display: flex;
-  flex-direction: column;
+  @include vertical-flex(20px);
   background: $accent-color;
   color: white;
   border-radius: 4px;
   padding: 20px;
-  gap: 20px
 }
 
 .coin__statistics__title {
@@ -516,17 +449,12 @@ footer {
 }
 
 .coin__statistic {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include horizontal-flex(null, center, space-between);
   font-weight: 600;
 }
 
 .coin__statistic__value_div {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-end;
+  @include vertical-flex(8px, flex-end);
 }
 
 .coin__statistics__separator {
@@ -548,9 +476,7 @@ footer {
 }
 
 .coin__chart-section {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  @include vertical-flex(40px);
   padding-top: 20px;
 }
 
@@ -561,4 +487,34 @@ footer {
 
 .coin__chart {
   height: 100%;
+}
+
+// Footer
+footer {
+  @include horizontal-flex(null, null, space-between);
+  padding: 12px 2vw;
+
+  a {
+    color: $accent-color;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+.indicators {
+  @include horizontal-flex(18px);
+}
+
+.indicator {
+  @include horizontal-flex(5px);
+  font-size: 0.9rem;
+}
+
+.indicator__value {
+  color: $accent-color;
+  font-weight: 600;
 }
