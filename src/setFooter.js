@@ -28,7 +28,7 @@ const displayMarketCap = (globalData) => {
   let text = generateElement('span', false, 'The global crypto market cap is ');
   paragraph.appendChild(text);
 
-  const marketCap = createElement('span', 'description__market-cap', `$${abbreviateNumber(globalData.data.total_market_cap.usd)}`);
+  const marketCap = generateElement('span', 'description__market-cap', `$${abbreviateNumber(globalData.data.total_market_cap.usd)}`);
   paragraph.appendChild(marketCap);
 
   text = generateElement('span', false, ', a ');
@@ -45,6 +45,8 @@ const displayMarketCap = (globalData) => {
   }
 
   paragraph.appendChild(changePercentage);
+  text = generateElement('span', false, ' ');
+  paragraph.appendChild(text);
   paragraph.appendChild(changeWord);
 
   text = generateElement('span', false, ' over the last day.');

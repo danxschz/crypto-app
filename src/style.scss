@@ -143,16 +143,15 @@ header {
   transform: rotate(360deg) scale(1.2);
 }
 
-// Main - Coin rows
-/*
-main {
+// Main - Coin list
+.main-list {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 32px 8vw;
+  padding: 24px 3vw;
   background: $primary-color;
 }
-*/
+
 .description {
   display: flex;
   flex-direction: column;
@@ -255,7 +254,7 @@ td {
 }
 
 // Main - Single coin
-main {
+.main-single {
   display: flex;
   flex-direction: column;
   gap: 48px;

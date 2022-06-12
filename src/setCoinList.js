@@ -46,7 +46,7 @@ const displayCoinList = (coinList) => {
 
   const tableBody = generateElement('tbody', 'coins');
   coinList.forEach((coin) => {
-    const coinRow = generateElement('tr', 'coin-row');
+    const coinRow = generateElement('tr', 'coin-row', false, {'data-id': coin.id});
 
     const coinRank = generateElement('td', 'coin-row__rank outer-left', coin.market_cap_rank);
     coinRow.appendChild(coinRank);
