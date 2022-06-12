@@ -140,7 +140,8 @@ const displayCoin = (coin, chart) => {
   const fullyDilutedIndicator = generateElement('div', 'coin__indicator');
   const fullyDilutedTitle = generateElement('div', 'coin__indicator__title', 'Fully Diluted Valuation');
   fullyDilutedIndicator.appendChild(fullyDilutedTitle);
-  const fullyDilutedValue = generateElement('div', 'coin__indicator__value', `$${coin.market_data.fully_diluted_valuation.usd.toLocaleString()}`);
+  const fullyDilutedContent = (coin.market_data.fully_diluted_valuation.usd) ? `$${coin.market_data.fully_diluted_valuation.usd.toLocaleString()}` : '-';
+  const fullyDilutedValue = generateElement('div', 'coin__indicator__value', fullyDilutedContent);
   fullyDilutedIndicator.appendChild(fullyDilutedValue);
   fullyDiluted.appendChild(fullyDilutedIndicator);
   coinIndicators.appendChild(fullyDiluted);
@@ -171,12 +172,14 @@ const displayCoin = (coin, chart) => {
   circulatingSupplyIndicator.appendChild(circulatingSupplyValueDiv);
 
   const circulatingSupplyBar = generateElement('div', 'coin__supply__bar');
-  const supplyBarPercentage = `${((coin.market_data.circulating_supply / coin.market_data.max_supply)*100).toFixed(0)}%`;
-  circulatingSupplyBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${supplyBarPercentage}, #e1e1e1 ${supplyBarPercentage}, #e1e1e1 100%)`;
+  if (coin.market_data.circulating_supply && coin.market_data.max_supply) {
+    const supplyBarPercentage = `${((coin.market_data.circulating_supply / coin.market_data.max_supply)*100).toFixed(0)}%`;
+    circulatingSupplyBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${supplyBarPercentage}, #e1e1e1 ${supplyBarPercentage}, #e1e1e1 100%)`;
+    const supplyBarPercentageElement = generateElement('div', 'coin__indicator__title', supplyBarPercentage);
+    circulatingSupplyValueDiv.appendChild(supplyBarPercentageElement);
+  }
+  
   circulatingSupplyIndicator.appendChild(circulatingSupplyBar);
-
-  const supplyBarPercentageElement = generateElement('div', 'coin__indicator__title', supplyBarPercentage);
-  circulatingSupplyValueDiv.appendChild(supplyBarPercentageElement);
   supply.appendChild(circulatingSupplyIndicator);
 
   const totalMaxSupply = generateElement('div', 'coin__indicator');
@@ -184,14 +187,16 @@ const displayCoin = (coin, chart) => {
   const totalSupplyIndicator = generateElement('div', 'coin__indicator_horizontal');
   const totalSupplyTitle = generateElement('div', 'coin__indicator__title', 'Total Supply');
   totalSupplyIndicator.appendChild(totalSupplyTitle);
-  const totalSupplyValue = generateElement('div', 'coin__indicator__value', `${coin.market_data.total_supply.toLocaleString()}`);
+  const totalSupplyContent = (coin.market_data.total_supply) ? coin.market_data.total_supply.toLocaleString() : '-';
+  const totalSupplyValue = generateElement('div', 'coin__indicator__value', totalSupplyContent);
   totalSupplyIndicator.appendChild(totalSupplyValue);
   totalMaxSupply.appendChild(totalSupplyIndicator);
 
   const maxSupplyIndicator = generateElement('div', 'coin__indicator_horizontal');
   const maxSupplyTitle = generateElement('div', 'coin__indicator__title', 'Max Supply');
   maxSupplyIndicator.appendChild(maxSupplyTitle);
-  const maxSupplyValue = generateElement('div', 'coin__indicator__value', `${coin.market_data.max_supply.toLocaleString()}`);
+  const maxSupplyContent = (coin.market_data.max_supply) ? coin.market_data.max_supply.toLocaleString() : '-';
+  const maxSupplyValue = generateElement('div', 'coin__indicator__value', maxSupplyContent);
   maxSupplyIndicator.appendChild(maxSupplyValue);
   totalMaxSupply.appendChild(maxSupplyIndicator);
   supply.appendChild(totalMaxSupply);
