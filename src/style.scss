@@ -1,6 +1,6 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@700&display=swap');
 
 // Variables
 $primary-color: #f4f7f9;
@@ -76,6 +76,7 @@ header {
 
 .logo__text {
   min-width: max-content;
+  font-family: 'Mulish', 'Inter', $system-font-stack;
   font-size: 1.6rem;
   font-weight: 700;
 }
