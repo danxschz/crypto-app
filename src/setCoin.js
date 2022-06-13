@@ -28,7 +28,8 @@ const displayCoin = (coin, chart) => {
   const coinInfo = generateElement('div', 'coin__info');
   const coinInfoBasic = generateElement('div', 'coin__info__basic');
 
-  const coinRank = generateElement('div', 'coin__rank', `Rank #${coin.market_cap_rank}`);
+  const coinRankContent = (coin.market_cap_rank) ? `Rank #${coin.market_cap_rank}` : 'Rank #N/A';
+  const coinRank = generateElement('div', 'coin__rank', coinRankContent);
   coinInfoBasic.appendChild(coinRank);
 
   const coinIdentifier = generateElement('div', 'coin__identifier');
@@ -42,33 +43,45 @@ const displayCoin = (coin, chart) => {
 
   const coinLinks = generateElement('div', 'coin__links');
 
-  const coinWebsite = generateElement('a', 'coin__link', false, {href: coin.links.homepage[0], target: '_blank'});
-  const coinWebsiteIcon = generateElement('i', 'fa-solid fa-link');
-  coinWebsite.appendChild(coinWebsiteIcon);
-  const coinWebsiteValue = generateElement('span', false, 'Website')
-  coinWebsite.appendChild(coinWebsiteValue);
-  coinLinks.appendChild(coinWebsite);
+  if (coin.links.homepage[0]) {
+    const coinWebsite = generateElement('a', 'coin__link', false, {href: coin.links.homepage[0], target: '_blank'});
+    const coinWebsiteIcon = generateElement('i', 'fa-solid fa-link');
+    coinWebsite.appendChild(coinWebsiteIcon);
+    const coinWebsiteValue = generateElement('span', false, 'Website')
+    coinWebsite.appendChild(coinWebsiteValue);
+    coinLinks.appendChild(coinWebsite);
+  }
 
-  const coinExplorer = generateElement('a', 'coin__link', false, {href: coin.links.blockchain_site[0], target: '_blank'});
-  const coinExplorerIcon = generateElement('i', 'fa-solid fa-magnifying-glass');
-  coinExplorer.appendChild(coinExplorerIcon);
-  const coinExplorerValue = generateElement('span', false, 'Explorer')
-  coinExplorer.appendChild(coinExplorerValue);
-  coinLinks.appendChild(coinExplorer);
+  if (coin.links.blockchain_site[0]) {
+    const coinExplorer = generateElement('a', 'coin__link', false, {href: coin.links.blockchain_site[0], target: '_blank'});
+    const coinExplorerIcon = generateElement('i', 'fa-solid fa-magnifying-glass');
+    coinExplorer.appendChild(coinExplorerIcon);
+    const coinExplorerValue = generateElement('span', false, 'Explorer')
+    coinExplorer.appendChild(coinExplorerValue);
+    coinLinks.appendChild(coinExplorer);
+  }
 
-  const coinCommunity = generateElement('a', 'coin__link', false, {href: coin.links.official_forum_url[0], target: '_blank'});
-  const coinCommunityIcon = generateElement('i', 'fa-solid fa-user');
-  coinCommunity.appendChild(coinCommunityIcon);
-  const coinCommunityValue = generateElement('span', false, 'Community')
-  coinCommunity.appendChild(coinCommunityValue);
-  coinLinks.appendChild(coinCommunity);
+  let coinCommunityContent = coin.links.official_forum_url[0] || coin.links.subreddit_url || coin.links.telegram_channel_identifier;
+  if (coinCommunityContent) {
+    if ((!coin.links.official_forum_url[0]) && (!coin.links.subreddit_url)) {
+      coinCommunityContent = `https://t.me/${coin.links.telegram_channel_identifier}`;
+    }
+    const coinCommunity = generateElement('a', 'coin__link', false, {href: coinCommunityContent, target: '_blank'});
+    const coinCommunityIcon = generateElement('i', 'fa-solid fa-user');
+    coinCommunity.appendChild(coinCommunityIcon);
+    const coinCommunityValue = generateElement('span', false, 'Community')
+    coinCommunity.appendChild(coinCommunityValue);
+    coinLinks.appendChild(coinCommunity);
+  }
 
-  const coinSourceCode = generateElement('a', 'coin__link', false, {href: coin.links.repos_url.github[0], target: '_blank'});
-  const coinSourceCodeIcon = generateElement('i', 'fa-solid fa-code');
-  coinSourceCode.appendChild(coinSourceCodeIcon);
-  const coinSourceCodeValue = generateElement('span', false, 'Source Code')
-  coinSourceCode.appendChild(coinSourceCodeValue);
-  coinLinks.appendChild(coinSourceCode);
+  if (coin.links.repos_url.github[0]) {
+    const coinSourceCode = generateElement('a', 'coin__link', false, {href: coin.links.repos_url.github[0], target: '_blank'});
+    const coinSourceCodeIcon = generateElement('i', 'fa-solid fa-code');
+    coinSourceCode.appendChild(coinSourceCodeIcon);
+    const coinSourceCodeValue = generateElement('span', false, 'Source Code')
+    coinSourceCode.appendChild(coinSourceCodeValue);
+    coinLinks.appendChild(coinSourceCode);
+  }
 
   coinInfoBasic.appendChild(coinLinks);
   coinInfo.appendChild(coinInfoBasic);
@@ -91,7 +104,8 @@ const displayCoin = (coin, chart) => {
     dayChangeIcon.setAttribute('class', 'fa-solid fa-caret-down');
     dayChange.style.background = '#ea3943';
   }
-  const dayChangeValue = generateElement('div', false, `${coin.market_data.price_change_percentage_24h.toFixed(2).replace('-','')}%`);
+  const dayChangeContent = (coin.market_data.price_change_percentage_24h) ? `${coin.market_data.price_change_percentage_24h.toFixed(2).replace('-','')}%` : '-';
+  const dayChangeValue = generateElement('div', false, dayChangeContent);
   dayChange.appendChild(dayChangeIcon);
   dayChange.appendChild(dayChangeValue);
   coinPrice.appendChild(dayChange);
@@ -102,19 +116,23 @@ const displayCoin = (coin, chart) => {
   const lowPrice = generateElement('div', 'coin__range');
   const lowPriceTitle = generateElement('div', 'coin__range__title', 'Low:');
   lowPrice.appendChild(lowPriceTitle);
-  const lowPriceValue = generateElement('div', 'coin__range__value', `$${coin.market_data.low_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  const lowPriceContent = (coin.market_data.low_24h.usd) ? `$${coin.market_data.low_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}` : '-';
+  const lowPriceValue = generateElement('div', 'coin__range__value', lowPriceContent);
   lowPrice.appendChild(lowPriceValue);
   priceRange.appendChild(lowPrice);
 
   const priceRangeBar = generateElement('div', 'coin__range__bar');
-  const priceBarPercentage = `${(((coin.market_data.current_price.usd - coin.market_data.low_24h.usd) / (coin.market_data.high_24h.usd - coin.market_data.low_24h.usd))*100).toFixed(0)}%`;
-  priceRangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${priceBarPercentage}, #e1e1e1 ${priceBarPercentage}, #e1e1e1 100%)`;
+  if (coin.market_data.low_24h.usd && coin.market_data.high_24h.usd) {
+    const priceBarPercentage = `${(((coin.market_data.current_price.usd - coin.market_data.low_24h.usd) / (coin.market_data.high_24h.usd - coin.market_data.low_24h.usd))*100).toFixed(0)}%`;
+    priceRangeBar.style.background = `linear-gradient(to right, #21c9b8 0%, #21c9b8 ${priceBarPercentage}, #e1e1e1 ${priceBarPercentage}, #e1e1e1 100%)`;
+  }
   priceRange.appendChild(priceRangeBar);
 
   const highPrice = generateElement('div', 'coin__range');
   const highPriceTitle = generateElement('div', 'coin__range__title', 'High:');
   highPrice.appendChild(highPriceTitle);
-  const highPriceValue = generateElement('div', 'coin__range__value', `$${coin.market_data.high_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  const highPriceContent = (coin.market_data.high_24h.usd) ? `$${coin.market_data.high_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}` : '-';
+  const highPriceValue = generateElement('div', 'coin__range__value', highPriceContent);
   highPrice.appendChild(highPriceValue);
   priceRange.appendChild(highPrice);
   
@@ -157,7 +175,8 @@ const displayCoin = (coin, chart) => {
   const volumeByMarketIndicator = generateElement('div', 'coin__indicator');
   const volumeByMarketTitle = generateElement('div', 'coin__indicator__title', 'Volume / Market Cap');
   volumeByMarketIndicator.appendChild(volumeByMarketTitle);
-  const volumeByMarketValue = generateElement('div', 'coin__indicator__value', `${(coin.market_data.total_volume.usd / coin.market_data.market_cap.usd).toLocaleString(undefined, {minimumFractionDigits: 5})}`);
+  const volumeByMarketContent = (!(coin.market_data.market_cap.usd === 0)) ? `${(coin.market_data.total_volume.usd / coin.market_data.market_cap.usd).toLocaleString(undefined, {minimumFractionDigits: 5})}` : '-';
+  const volumeByMarketValue = generateElement('div', 'coin__indicator__value', volumeByMarketContent);
   volumeByMarketIndicator.appendChild(volumeByMarketValue);
   volume.appendChild(volumeByMarketIndicator);
   coinIndicators.appendChild(volume);
@@ -285,7 +304,7 @@ const displayCoin = (coin, chart) => {
   const dayLowHighStatistic = generateElement('div', 'coin__statistic');
   const dayLowHighStatisticTitle = generateElement('div', 'coin__statistic__title', '24h Low / 24h High');
   dayLowHighStatistic.appendChild(dayLowHighStatisticTitle);
-  const dayLowHighStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.low_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})} / $${coin.market_data.high_24h.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  const dayLowHighStatisticValue = generateElement('div', 'coin__statistic__value', `${lowPriceContent} / ${highPriceContent}`);
   dayLowHighStatistic.appendChild(dayLowHighStatisticValue);
   coinStatistics.appendChild(dayLowHighStatistic);
   statisticSeparator = generateElement('div', 'coin__statistics__separator');
@@ -303,7 +322,7 @@ const displayCoin = (coin, chart) => {
   const rankStatistic = generateElement('div', 'coin__statistic');
   const rankStatisticTitle = generateElement('div', 'coin__statistic__title', 'Market Cap Rank');
   rankStatistic.appendChild(rankStatisticTitle);
-  const rankStatisticValue = generateElement('div', 'coin__statistic__value', `#${coin.market_cap_rank}`);
+  const rankStatisticValue = generateElement('div', 'coin__statistic__value', coinRankContent);
   rankStatistic.appendChild(rankStatisticValue);
   coinStatistics.appendChild(rankStatistic);
   statisticSeparator = generateElement('div', 'coin__statistics__separator');
@@ -321,7 +340,7 @@ const displayCoin = (coin, chart) => {
   const volumeByMarketStatistic = generateElement('div', 'coin__statistic');
   const volumeByMarketStatisticTitle = generateElement('div', 'coin__statistic__title', 'Volume / Market Cap');
   volumeByMarketStatistic.appendChild(volumeByMarketStatisticTitle);
-  const volumeByMarketStatisticValue = generateElement('div', 'coin__statistic__value', `${(coin.market_data.total_volume.usd / coin.market_data.market_cap.usd).toLocaleString(undefined, {minimumFractionDigits: 5})}`);
+  const volumeByMarketStatisticValue = generateElement('div', 'coin__statistic__value', volumeByMarketContent);
   volumeByMarketStatistic.appendChild(volumeByMarketStatisticValue);
   coinStatistics.appendChild(volumeByMarketStatistic);
   statisticSeparator = generateElement('div', 'coin__statistics__separator');
