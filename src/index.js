@@ -1,6 +1,7 @@
 import './normalize.css';
 import './style.scss';
 import moment from 'moment';
+import searchCoin, { resetInputs } from './searchCoin';
 import setFooter, { setMarketCap } from './setFooter';
 import setCoinList from './setCoinList';
 import setCoin from './setCoin';
@@ -27,6 +28,22 @@ const setSingleCoinPage = async (coinId) => {
   await setCoin(coinId);
 }
 
+const handleSearch = async () => {
+  const searchBar = document.querySelector('#search');
+  const results = await searchCoin(searchBar.value);
+  if (results.coins.length > 0) {
+    resetInputs();
+    setSingleCoinPage(results.coins[0].id);
+  } else {
+    searchBar.value = 'No results found';
+    setTimeout(() => resetInputs(), 2000);
+  }
+}
+
+// Set search bar
+const searchBtn = document.querySelector('.search__btn');
+searchBtn.addEventListener('click', () => handleSearch());
+
 // Set header date
 const date = document.querySelector('.date');
 date.textContent = moment().format('dddd, MMMM Do YYYY');
@@ -34,5 +51,3 @@ date.textContent = moment().format('dddd, MMMM Do YYYY');
 // Set home
 setCoinListPage();
 setFooter();
-
-
