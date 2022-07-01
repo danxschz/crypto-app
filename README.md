@@ -45,7 +45,7 @@
 | ----------------- | ------------------------------------------------------------------ |
 | Primary Color | #F4F7F9 |
 | Accent Color | #21C9B8 |
-| Text Color | #262A41 #262a41 |
+| Text Color | #262A41 |
 | Light Text Color | #262A4180 |
 | Positive Color | #41D9AB |
 | Negative Color | #EA3943 |
