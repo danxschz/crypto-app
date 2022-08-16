@@ -1,0 +1,28 @@
+// Variables
+$clr-neutral-300: #f4f7f9;
+$accent-color: #21c9b8;
+$positive-color: #41d9ab;
+$negative-color: #ea3943;
+$clr-text: #262a41;
+$light-text-color: #262a4180;
+
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, avenir next, avenir,
+  segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+$font-family-logo: 'Mulish', 'Inter', -apple-system, BlinkMacSystemFont, avenir next, avenir,
+  segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+
+// Mixins
+@mixin horizontal-flex($gap: null, $align: null, $justify: null) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+@mixin vertical-flex($gap: null, $align: null, $justify: null) {
+  display: flex;
+  flex-direction: column;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}

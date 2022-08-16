@@ -1,5 +1,5 @@
-import './normalize.css';
-import './style.scss';
+import './styles/normalize.css';
+import './styles/index.scss';
 import html from './index.html';
 import moment from 'moment';
 import searchCoin, { resetInputs } from './searchCoin';

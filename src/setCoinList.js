@@ -1,9 +1,11 @@
-import Chart from 'chart.js/auto';
+import './styles/coinList.scss';
 import generateElement from 'generate-element';
+import Chart from 'chart.js/auto';
 
 const getCoinList = async () => {
   const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=7d', { mode: 'cors' });
-  return response.json();
+  const json = await response.json();
+  return json;
 }
 
 const styleChangePercentage = (changePercentage, iconElement, valueElement) => {
@@ -14,6 +16,31 @@ const styleChangePercentage = (changePercentage, iconElement, valueElement) => {
     iconElement.setAttribute('class', 'fa-solid fa-caret-down negative');
     valueElement.classList.add('negative');
   }
+}
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  borderWidth: 2,
+  plugins: {
+    legend: {
+       display: false
+    }
+  },
+  scales: {
+    x: {
+      display: false
+    },
+    y: {
+      display: false
+    }
+  },
+  elements: {
+    point:{
+      radius: 0
+    }
+  },
+  events: [],
 }
 
 const displayCoinList = (coinList) => {
@@ -45,36 +72,50 @@ const displayCoinList = (coinList) => {
   table.appendChild(tableHead);
 
   const tableBody = generateElement('tbody', 'coins');
-  coinList.forEach((coin) => {
-    const coinRow = generateElement('tr', 'coin-row', false, {'data-id': coin.id});
 
-    const coinRank = generateElement('td', 'coin-row__rank outer-left', coin.market_cap_rank);
+  coinList.forEach((coin) => {
+    const { 
+      id, 
+      market_cap_rank, 
+      image, 
+      name, 
+      symbol, 
+      current_price, 
+      price_change_percentage_24h, 
+      price_change_percentage_7d_in_currency, 
+      market_cap,
+      sparkline_in_7d,
+    } = coin;
+
+    const coinRow = generateElement('tr', 'coin-row', false, { 'data-id': id });
+
+    const coinRank = generateElement('td', 'coin-row__rank outer-left', market_cap_rank);
     coinRow.appendChild(coinRank);
 
     const coinIdentifier = document.createElement('td');
     const coinIdentifierDiv = generateElement('div', 'coin-row__identifier');
 
-    const coinImg = generateElement('img', false, false, {src: coin.image});
+    const coinImg = generateElement('img', false, false, { src: image, alt: `${name} logo` });
     coinIdentifierDiv.appendChild(coinImg);
 
-    const coinName = generateElement('div', 'coin-row__name', coin.name);
+    const coinName = generateElement('div', 'coin-row__name', name);
     coinIdentifierDiv.appendChild(coinName);
 
-    const coinSymbol = generateElement('div', 'coin-row__symbol', coin.symbol);
+    const coinSymbol = generateElement('div', 'coin-row__symbol', symbol);
     coinIdentifierDiv.appendChild(coinSymbol);
 
     coinIdentifier.appendChild(coinIdentifierDiv);
     coinRow.appendChild(coinIdentifier);
 
-    const coinPrice = generateElement('td', 'coin-row__price', `$${coin.current_price.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+    const coinPrice = generateElement('td', 'coin-row__price', `$${current_price.toLocaleString(undefined, { maximumFractionDigits: 7 })}`);
     coinRow.appendChild(coinPrice);
 
     const dayChange = document.createElement('td');
     const dayChangeDiv = generateElement('div', 'coin-row__change');
 
     const dayChangeIcon = document.createElement('i');
-    const dayChangeValue = generateElement('div', false, `${coin.price_change_percentage_24h.toFixed(2).replace('-','')}%`);
-    styleChangePercentage(coin.price_change_percentage_24h, dayChangeIcon, dayChangeValue);
+    const dayChangeValue = generateElement('div', false, `${price_change_percentage_24h.toFixed(2).replace('-','')}%`);
+    styleChangePercentage(price_change_percentage_24h, dayChangeIcon, dayChangeValue);
     dayChangeDiv.appendChild(dayChangeIcon);
     dayChangeDiv.appendChild(dayChangeValue);
     dayChange.appendChild(dayChangeDiv);
@@ -84,25 +125,25 @@ const displayCoinList = (coinList) => {
     const weekChangeDiv = generateElement('div', 'coin-row__change');
 
     const weekChangeIcon = document.createElement('i');
-    const weekChangeValue = generateElement('div', false, `${coin.price_change_percentage_7d_in_currency.toFixed(2).replace('-', '')}%`);
-    styleChangePercentage(coin.price_change_percentage_7d_in_currency, weekChangeIcon, weekChangeValue);
+    const weekChangeValue = generateElement('div', false, `${price_change_percentage_7d_in_currency.toFixed(2).replace('-', '')}%`);
+    styleChangePercentage(price_change_percentage_7d_in_currency, weekChangeIcon, weekChangeValue);
     weekChangeDiv.appendChild(weekChangeIcon)
     weekChangeDiv.appendChild(weekChangeValue);
     weekChange.appendChild(weekChangeDiv)
     coinRow.appendChild(weekChange);
 
-    const marketCap = generateElement('td', 'coin-row__cap', `$${coin.market_cap.toLocaleString()}`);
+    const marketCap = generateElement('td', 'coin-row__cap', `$${market_cap.toLocaleString()}`);
     coinRow.appendChild(marketCap);
 
     const lastDays = generateElement('td', 'coin-row__last-days outer-right');
     const ctx = document.createElement('canvas');
-    const chartData = coin.sparkline_in_7d.price;
+    const chartData = sparkline_in_7d.price;
     const labels = [];
     for (let i = 1; i <= chartData.length; i += 1) {
       labels.push(i);
     }
 
-    const chartColor = (coin.price_change_percentage_7d_in_currency >= 0) ? '#41d9ab':'#ea3943';
+    const chartColor = (price_change_percentage_7d_in_currency >= 0) ? '#41d9ab' : '#ea3943';
 
     const data = {
       labels: labels,
@@ -117,30 +158,7 @@ const displayCoinList = (coinList) => {
     new Chart(ctx, {
       type: 'line',
       data: data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        borderWidth: 2,
-        plugins: {
-          legend: {
-             display: false
-          }
-        },
-        scales: {
-          x: {
-            display: false
-          },
-          y: {
-            display: false
-          }
-        },
-        elements: {
-          point:{
-            radius: 0
-          }
-        },
-        events: [],
-      }
+      options: chartOptions,
     });
 
     lastDays.appendChild(ctx);

@@ -1,0 +1,102 @@
+@import './shared';
+
+.main-list {
+  @include vertical-flex(24px);
+  padding: 24px 3vw;
+  background: $clr-neutral-300;
+}
+
+.description {
+  @include vertical-flex(16px);
+
+  h1 {
+    font-size: 1.7rem;
+  }
+}
+
+.description__market-cap {
+  font-weight: 700;
+}
+
+.description__percentage {
+  font-weight: 600;
+}
+
+table {
+  border-spacing: 0 6px;
+}
+
+caption {
+  display: none;
+}
+
+th {
+  padding: 8px 16px;
+  background: $accent-color;
+  color: white;
+}
+
+.coin-th {
+  text-align: left;
+}
+
+.outer-left {
+  border-radius: 4px 0 0 4px;
+}
+
+.outer-right {
+  border-radius: 0 4px 4px 0;
+}
+
+td {
+  height: 62px;
+  padding: 0 16px;
+  background: white;
+  text-align: center;
+  font-weight: 700;
+}
+
+.coin-row {
+  cursor: pointer;
+
+  &:hover {
+    td {
+      background: rgba(33, 201, 184, 0.1);
+    }
+  }
+}
+
+.coin-row__identifier {
+  @include horizontal-flex(10px, center);
+
+  img {
+    width: 30px;
+  }
+}
+
+.coin-row__symbol {
+  text-transform: uppercase;
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.coin-row__change {
+  @include horizontal-flex(10px, null, center);
+
+  .fa-caret-up {
+    align-self: flex-end;
+  }
+}
+
+.positive {
+  color: $positive-color;
+}
+
+.negative {
+  color: $negative-color;
+}
+
+.coin-row__last-days {
+  width: clamp(120px, 15vw, 700px);
+  padding: 2px 16px;
+}
