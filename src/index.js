@@ -1,5 +1,6 @@
 import './normalize.css';
 import './style.scss';
+import html from './index.html';
 import moment from 'moment';
 import searchCoin, { resetInputs } from './searchCoin';
 import setFooter, { setMarketCap } from './setFooter';

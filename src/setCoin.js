@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Chart from 'chart.js/auto';
-import generateElement from './generateElement';
+import generateElement from 'generate-element';
 
 const getCoinData = async (coinId) => {
   const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`, { mode: 'cors' });
