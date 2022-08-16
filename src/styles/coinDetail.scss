@@ -1,0 +1,238 @@
+@import './shared';
+
+.main-single {
+  @include flex-col(48px);
+}
+
+.coin__category {
+  @include flex-row(12px, center);
+  font-weight: 600;
+
+  a {
+    color: $clr-primary;
+    text-decoration: none;
+  }
+
+  .fa-chevron-right {
+    color: $clr-primary;
+    font-size: 0.7rem;
+  }  
+}
+
+.coin__category__value {
+  color: $light-text-color;
+}
+
+.coin__info {
+  @include flex-row(null, flex-end, space-between);
+}
+
+.coin__info__basic {
+  @include flex-col(16px);
+}
+
+.coin__rank {
+  padding: 6px 6px;
+  border-radius: 4px;
+  width: max-content;
+  background: $clr-primary;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.coin__identifier {
+  @include flex-row(16px, center);
+  font-weight: 700;
+
+  img {
+    width: 40px;
+  }
+}
+
+.coin__name {
+  font-size: 2rem;
+}
+
+.coin__symbol {
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: $clr-primary;
+  color: white;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.coin__links {
+  @include flex-row(8px);
+}
+
+.coin__link {
+  @include flex-row(8px, center);
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: $clr-primary;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.8rem;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.coin__info__price {
+  @include flex-col(16px, flex-end);
+}
+
+.coin__price__title {
+  color: $light-text-color;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+}
+
+.coin__price {
+  @include flex-row(16px, center);
+}
+
+.coin__price__value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.coin__price__change {
+  @include flex-row(6px);
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: $clr-primary;
+  color: white;
+  font-weight: 700;
+
+  .fa-caret-up {
+    align-self: flex-end;
+  }
+}
+
+.coin__price-range {
+  @include flex-row(8px, center);
+  font-size: 0.9rem;
+}
+
+.coin__range {
+  @include flex-row(4px);
+}
+
+.coin__range__title {
+  color: $light-text-color;
+  font-weight: 500;
+}
+
+.coin__range__value {
+  font-weight: 700;
+}
+
+.coin__range__bar {
+  width: 20vw;
+  height: 6px;
+  border-radius: 4px;
+  background: $clr-primary;
+}
+
+.coin__range__indicator {
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: $clr-primary;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.coin__indicators {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.coin__indicator-section {
+  @include flex-col(40px, null, space-between);
+  padding: 24px 0;
+}
+
+.coin__indicator {
+  @include flex-col(8px);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.coin__indicator_horizontal {
+  @include flex-row(8px, null, space-between);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.coin__indicator__title {
+  color: $light-text-color;
+}
+
+.coin__supply__bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: $clr-primary;
+}
+
+.coin__chart-stats {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 32px;
+}
+
+.coin__chart-section {
+  @include flex-col(40px);
+  padding-top: 20px;
+}
+
+.coin__chart__title {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.coin__chart {
+  height: 100%;
+}
+
+.coin__statistics {
+  @include flex-col(20px);
+  padding: 20px;
+  border-radius: 4px;
+  background: $clr-primary;
+  color: white;
+}
+
+.coin__statistics__title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.coin__statistics__separator {
+  width: 100%;
+  height: 1px;
+  background: white;
+  opacity: 0.7;
+}
+
+.coin__statistic {
+  @include flex-row(null, center, space-between);
+  font-weight: 600;
+}
+
+.coin__statistic__value_div {
+  @include flex-col(8px, flex-end);
+}
+
+.coin__statistic__date {
+  font-weight: 500;
+  font-size: 0.9rem;
+}

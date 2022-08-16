@@ -1,25 +1,19 @@
 @import './shared';
 
 .main-list {
-  @include vertical-flex(24px);
-  padding: 24px 3vw;
-  background: $clr-neutral-300;
+  @include flex-col(24px);
 }
 
-.description {
-  @include vertical-flex(16px);
+.list-header {
+  @include flex-col(16px);
 
   h1 {
     font-size: 1.7rem;
   }
-}
 
-.description__market-cap {
-  font-weight: 700;
-}
-
-.description__percentage {
-  font-weight: 600;
+  strong {
+    font-weight: 600;
+  }
 }
 
 table {
@@ -32,7 +26,7 @@ caption {
 
 th {
   padding: 8px 16px;
-  background: $accent-color;
+  background: $clr-primary;
   color: white;
 }
 
@@ -67,7 +61,7 @@ td {
 }
 
 .coin-row__identifier {
-  @include horizontal-flex(10px, center);
+  @include flex-row(10px, center);
 
   img {
     width: 30px;
@@ -81,7 +75,7 @@ td {
 }
 
 .coin-row__change {
-  @include horizontal-flex(10px, null, center);
+  @include flex-row(10px, null, center);
 
   .fa-caret-up {
     align-self: flex-end;

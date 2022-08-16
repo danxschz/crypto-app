@@ -36,77 +36,76 @@ body {
 
 // Header
 header {
-  @include horizontal-flex(null, center, space-between);
-  padding: 20px 3vw;
+  @include flex-row(null, center, space-between);
+  width: min(94%, 1500px);
+  margin-inline: auto;
+  padding-block: 1.1rem;
   position: relative;
   box-shadow: 0 2px 4px -4px rgb(212, 212, 212);
 
   a {
-    color: $accent-color;
+    color: $clr-primary;
     text-decoration: none;
   }
 }
 
 .logo {
-  @include horizontal-flex(12px, center);
+  @include flex-row(12px, center);
 
   img {
     width: 50px;
   }
-}
 
-.logo__text {
-  min-width: max-content;
-  font-family: $font-family-logo;
-  font-size: 1.6rem;
-  font-weight: 700;
+  a:nth-child(2) {
+    min-width: max-content;
+    text-transform: uppercase;
+    font-family: $font-family-logo;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
 }
 
 .search {
-  @include horizontal-flex(1px);
+  @include flex-row(1px);
   width: 40%;
   border-radius: 4px;
   background: $clr-neutral-300;
 
   label {
-    display: none;
+    overflow: hidden;
+    position: absolute;
+    height: 0;
+  }
+
+  button {
+    padding: 14px;
+    border: none;
+    border-radius: 4px;
+    background: $clr-neutral-300;
+  
+    i {
+      color: $clr-primary;
+      transition: opacity 0.3s;
+    }
+    
+    &:hover i, &:focus i, &:active i {
+      opacity: 0.8;
+    }
   }
 }
 
 #search {
   width: 100%;
-  padding: 14px 1.5vw;
+  padding: 0.8rem 1.1rem;
   border: none;
   border-radius: 4px 0 0 4px;
   background: $clr-neutral-300;
   color: $clr-text;
-
-  &:focus {
-    outline-color: $accent-color;
-  }
-}
-
-.search__btn {
-  padding: 14px;
-  border: none;
-  border-radius: 4px;
-  background: $clr-neutral-300;
-
-  i {
-    opacity: 0.3;
-    transition: color 0.3s, opacity 0.3s;
-  }
-  
-  &:hover {
-    i {
-      color: $accent-color;
-      opacity: 1;
-    }
-  }
+  outline-color: $clr-primary;
 }
 
 .date-git {
-  @include horizontal-flex(24px, center);
+  @include flex-row(24px, center);
 }
 
 .date {
@@ -122,272 +121,45 @@ header {
   transform: rotate(360deg) scale(1.2);
 }
 
-// Main - Single coin
-.main-single {
-  @include vertical-flex(48px);
-  padding: 24px 3vw;
+// Main
+main {
   background: $clr-neutral-300;
-}
 
-.coin__category {
-  @include horizontal-flex(12px, center);
-  font-weight: 600;
-
-  a {
-    color: $accent-color;
-    text-decoration: none;
+  > div {
+    width: min(94%, 1500px);
+    margin-inline: auto;
+    padding-block: 1.5rem;
   }
-
-  .fa-chevron-right {
-    color: $accent-color;
-    font-size: 0.7rem;
-  }  
-}
-
-.coin__category__value {
-  color: $light-text-color;
-}
-
-.coin__info {
-  @include horizontal-flex(null, flex-end, space-between);
-}
-
-.coin__info__basic {
-  @include vertical-flex(16px);
-}
-
-.coin__rank {
-  padding: 6px 6px;
-  border-radius: 4px;
-  width: max-content;
-  background: $accent-color;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.coin__identifier {
-  @include horizontal-flex(16px, center);
-  font-weight: 700;
-
-  img {
-    width: 40px;
-  }
-}
-
-.coin__name {
-  font-size: 2rem;
-}
-
-.coin__symbol {
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: $accent-color;
-  color: white;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-}
-
-.coin__links {
-  @include horizontal-flex(8px);
-}
-
-.coin__link {
-  @include horizontal-flex(8px, center);
-  padding: 6px 10px;
-  border-radius: 4px;
-  background: $accent-color;
-  color: white;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 0.8rem;
-
-  &:hover {
-    opacity: 0.9;
-  }
-}
-
-.coin__info__price {
-  @include vertical-flex(16px, flex-end);
-}
-
-.coin__price__title {
-  color: $light-text-color;
-  font-weight: 600;
-  font-size: 0.9rem;
-
-}
-
-.coin__price {
-  @include horizontal-flex(16px, center);
-}
-
-.coin__price__value {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.coin__price__change {
-  @include horizontal-flex(6px);
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: $accent-color;
-  color: white;
-  font-weight: 700;
-
-  .fa-caret-up {
-    align-self: flex-end;
-  }
-}
-
-.coin__price-range {
-  @include horizontal-flex(8px, center);
-  font-size: 0.9rem;
-}
-
-.coin__range {
-  @include horizontal-flex(4px);
-}
-
-.coin__range__title {
-  color: $light-text-color;
-  font-weight: 500;
-}
-
-.coin__range__value {
-  font-weight: 700;
-}
-
-.coin__range__bar {
-  width: 20vw;
-  height: 6px;
-  border-radius: 4px;
-  background: $accent-color;
-}
-
-.coin__range__indicator {
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: $accent-color;
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.coin__indicators {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.coin__indicator-section {
-  @include vertical-flex(40px, null, space-between);
-  padding: 24px 0;
-}
-
-.coin__indicator {
-  @include vertical-flex(8px);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.coin__indicator_horizontal {
-  @include horizontal-flex(8px, null, space-between);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.coin__indicator__title {
-  color: $light-text-color;
-}
-
-.coin__supply__bar {
-  width: 100%;
-  height: 6px;
-  border-radius: 4px;
-  background: $accent-color;
-}
-
-.coin__chart-stats {
-  display: grid;
-  grid-template-columns: 1.8fr 1fr;
-  gap: 32px;
-}
-
-.coin__chart-section {
-  @include vertical-flex(40px);
-  padding-top: 20px;
-}
-
-.coin__chart__title {
-  font-weight: 700;
-  font-size: 1.5rem;
-}
-
-.coin__chart {
-  height: 100%;
-}
-
-.coin__statistics {
-  @include vertical-flex(20px);
-  padding: 20px;
-  border-radius: 4px;
-  background: $accent-color;
-  color: white;
-}
-
-.coin__statistics__title {
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.coin__statistics__separator {
-  width: 100%;
-  height: 1px;
-  background: white;
-  opacity: 0.7;
-}
-
-.coin__statistic {
-  @include horizontal-flex(null, center, space-between);
-  font-weight: 600;
-}
-
-.coin__statistic__value_div {
-  @include vertical-flex(8px, flex-end);
-}
-
-.coin__statistic__date {
-  font-weight: 500;
-  font-size: 0.9rem;
 }
 
 // Footer
 footer {
-  @include horizontal-flex(null, null, space-between);
-  padding: 12px 2vw;
+  @include flex-row(null, center, space-between);
+  width: min(94%, 1500px);
+  margin-inline: auto;
+  padding-block: 1rem;
 
   a {
-    color: $accent-color;
+    color: $clr-primary;
     font-weight: 600;
     text-decoration: none;
 
-    &:hover {
+    &:hover, &:focus, &:active {
       opacity: 0.9;
     }
   }
 }
 
 .indicators {
-  @include horizontal-flex(18px);
+  @include flex-row(18px);
 }
 
 .indicator {
-  @include horizontal-flex(5px);
+  @include flex-row(5px);
   font-size: 0.9rem;
 }
 
 .indicator__value {
-  color: $accent-color;
+  color: $clr-primary;
   font-weight: 600;
 }

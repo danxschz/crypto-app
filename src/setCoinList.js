@@ -44,7 +44,7 @@ const chartOptions = {
 }
 
 const displayCoinList = (coinList) => {
-  const main = document.querySelector('main');
+  const main = document.querySelector('main > div');
   const table = document.createElement('table');
 
   const tableCaption = generateElement('caption', false, 'Cryptocurrency Prices by Market Cap');

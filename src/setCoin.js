@@ -1,3 +1,4 @@
+import './styles/coinDetail.scss';
 import moment from 'moment';
 import Chart from 'chart.js/auto';
 import generateElement from 'generate-element';
@@ -14,7 +15,7 @@ const getCoinChart = async (coinId) => {
 
 const displayCoin = (coin, chart) => {
   document.title = `${coin.name} - Off The Grid`;
-  const main = document.querySelector('main');
+  const main = document.querySelector('main > div');
 
   const category = generateElement('div', 'coin__category');
   const categoryLink = generateElement('a', false, 'Coins', {href: ''});
