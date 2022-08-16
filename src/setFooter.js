@@ -1,4 +1,4 @@
-import generateElement from "./generateElement";
+import generateElement from 'generate-element';
 
 const getGlobalData = async () => {
   const response = await fetch('https://api.coingecko.com/api/v3/global', { mode: 'cors' });
