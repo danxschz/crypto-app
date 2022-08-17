@@ -1,7 +1,7 @@
 @import './shared';
 
 .main-list {
-  @include flex-col(24px);
+  @include flex-col(1.5rem);
 }
 
 .list-header {
@@ -16,7 +16,13 @@
   }
 }
 
+.table-wrapper {
+  overflow: auto;
+  max-width: 94vw;
+}
+
 table {
+  width: 100%;
   border-spacing: 0 6px;
 }
 
@@ -24,28 +30,36 @@ caption {
   display: none;
 }
 
+.radius-left {
+  border-radius: 4px 0 0 4px;
+}
+
+.radius-right {
+  border-radius: 0 4px 4px 0;
+}
+
 th {
-  padding: 8px 16px;
+  white-space: nowrap;
+  padding-block: 10px;
+  padding-inline: 1rem;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  position: sticky;
+  left: 0;
 }
 
 .coin-th {
   text-align: left;
 }
 
-.outer-left {
-  border-radius: 4px 0 0 4px;
-}
-
-.outer-right {
-  border-radius: 0 4px 4px 0;
-}
-
 td {
-  height: 62px;
-  padding: 0 16px;
-  background: white;
+  height: 70px;
+  padding-inline: 1rem;
+  background: $clr-neutral-100;
   text-align: center;
   font-weight: 700;
 }
@@ -54,10 +68,8 @@ td {
   outline-color: $clr-primary;
   cursor: pointer;
 
-  &:hover {
-    td {
-      background: rgba(33, 201, 184, 0.1);
-    }
+  &:hover td {
+    background: rgba(33, 201, 184, 0.1);
   }
 }
 
@@ -84,14 +96,14 @@ td {
 }
 
 .positive {
-  color: $positive-color;
+  color: $clr-positive;
 }
 
 .negative {
-  color: $negative-color;
+  color: $clr-negative;
 }
 
 .coin-row__last-days {
   width: clamp(120px, 15vw, 700px);
-  padding: 2px 16px;
+  padding-block: 2px;
 }

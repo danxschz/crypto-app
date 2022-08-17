@@ -45,6 +45,7 @@ const chartOptions = {
 
 const displayCoinList = (coinList) => {
   const main = document.querySelector('main > div');
+  const tableWrapper = generateElement('div', 'table-wrapper');
   const table = document.createElement('table');
 
   const tableCaption = generateElement('caption', false, 'Cryptocurrency Prices by Market Cap');
@@ -53,7 +54,7 @@ const displayCoinList = (coinList) => {
   const tableHead = document.createElement('thead');
   const tableHeadRow = document.createElement('tr');
 
-  const tableHeaderRank = generateElement('th', 'outer-left', '#', {scope: 'col'});
+  const tableHeaderRank = generateElement('th', 'radius-left', '#', {scope: 'col'});
   tableHeadRow.append(tableHeaderRank);
   const tableHeaderCoin = generateElement('th', 'coin-th', 'Coin', {scope: 'col'});
   tableHeadRow.append(tableHeaderCoin);
@@ -65,7 +66,7 @@ const displayCoinList = (coinList) => {
   tableHeadRow.append(tableHeaderWeek);
   const tableHeaderMarket = generateElement('th', false, 'Market Cap', {scope: 'col'});
   tableHeadRow.append(tableHeaderMarket);
-  const tableHeaderLastDays = generateElement('th', 'outer-right', 'Last 7 Days', {scope: 'col'});
+  const tableHeaderLastDays = generateElement('th', 'radius-right', 'Last 7 Days', {scope: 'col'});
   tableHeadRow.append(tableHeaderLastDays);
 
   tableHead.appendChild(tableHeadRow);
@@ -89,7 +90,7 @@ const displayCoinList = (coinList) => {
 
     const coinRow = generateElement('tr', 'coin-row', false, { 'data-id': id, 'tabindex': 0 });
 
-    const coinRank = generateElement('td', 'coin-row__rank outer-left', market_cap_rank);
+    const coinRank = generateElement('td', 'coin-row__rank radius-left', market_cap_rank);
     coinRow.appendChild(coinRank);
 
     const coinIdentifier = document.createElement('td');
@@ -135,7 +136,7 @@ const displayCoinList = (coinList) => {
     const marketCap = generateElement('td', 'coin-row__cap', `$${market_cap.toLocaleString()}`);
     coinRow.appendChild(marketCap);
 
-    const lastDays = generateElement('td', 'coin-row__last-days outer-right');
+    const lastDays = generateElement('td', 'coin-row__last-days radius-right');
     const ctx = document.createElement('canvas');
     const chartData = sparkline_in_7d.price;
     const labels = [];
@@ -167,7 +168,8 @@ const displayCoinList = (coinList) => {
   });
 
   table.appendChild(tableBody);
-  main.appendChild(table);
+  tableWrapper.appendChild(table);
+  main.appendChild(tableWrapper);
 }
 
 const setCoinList = async () => {
