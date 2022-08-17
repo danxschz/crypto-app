@@ -51,6 +51,7 @@ td {
 }
 
 .coin-row {
+  outline-color: $clr-primary;
   cursor: pointer;
 
   &:hover {

@@ -2,42 +2,48 @@ import './styles/normalize.css';
 import './styles/index.scss';
 import html from './index.html';
 import moment from 'moment';
-import searchCoin, { resetInputs } from './searchCoin';
+import setCoinDetail from './setCoinDetail';
 import setListHeader from './setListHeader';
 import setCoinList from './setCoinList';
-import setCoin from './setCoin';
 import setFooter from './setFooter';
+import searchCoin, { resetInputs } from './searchCoin';
 
-// Set header date
-const date = document.querySelector('.date');
-date.textContent = moment().format('dddd, MMMM Do YYYY');
-
-// Set search bar
-const searchBtn = document.querySelector('.search__btn');
-searchBtn.addEventListener('click', () => handleSearch());
-
-const clearMain = (mainClass) => {
+// Switching page logic
+const switchMain = (mainClass) => {
   const main = document.querySelector('main > div');
   main.replaceChildren();
   main.removeAttribute('class');
   main.classList.add(mainClass);
 }
 
+const setCoinDetailPage = async (coinId) => {
+  switchMain('main-detail');
+  await setCoinDetail(coinId);
+}
+
 const setCoinListPage = async () => {
-  clearMain('main-list');
+  switchMain('main-list');
   await setListHeader();
   await setCoinList();
+
   const coins = document.querySelectorAll('.coin-row');
   coins.forEach((coin) => {
-    coin.addEventListener('click', () => setSingleCoinPage(coin.getAttribute('data-id')));
+    const id = coin.getAttribute('data-id');
+    coin.addEventListener('click', () => setCoinDetailPage(id));
+    coin.addEventListener('keypress', (e) => {
+      if (e.key !== ' ' && e.key !== 'Enter') return;
+      setCoinDetailPage(id);
+    });
   });
 }
 
-const setSingleCoinPage = async (coinId) => {
-  clearMain('main-single');
-  await setCoin(coinId);
-}
+// Set home
+const date = document.querySelector('.date');
+date.textContent = moment().format('dddd, MMMM Do YYYY');
+setCoinListPage();
+setFooter();
 
+// Set search bar
 const handleSearch = async () => {
   const searchBar = document.querySelector('#search');
   const results = await searchCoin(searchBar.value);
@@ -50,6 +56,5 @@ const handleSearch = async () => {
   }
 }
 
-// Set home
-setCoinListPage();
-setFooter();
+const searchBtn = document.querySelector('.search__btn');
+searchBtn.addEventListener('click', () => handleSearch());

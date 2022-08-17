@@ -163,3 +163,13 @@ footer {
   color: $clr-primary;
   font-weight: 600;
 }
+
+@media (max-width: 600px) {
+  .date-git {
+    display: none;
+  }
+
+  .indicator:nth-child(3) {
+    display: none;
+  }
+}

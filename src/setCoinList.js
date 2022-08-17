@@ -87,7 +87,7 @@ const displayCoinList = (coinList) => {
       sparkline_in_7d,
     } = coin;
 
-    const coinRow = generateElement('tr', 'coin-row', false, { 'data-id': id });
+    const coinRow = generateElement('tr', 'coin-row', false, { 'data-id': id, 'tabindex': 0 });
 
     const coinRank = generateElement('td', 'coin-row__rank outer-left', market_cap_rank);
     coinRow.appendChild(coinRank);

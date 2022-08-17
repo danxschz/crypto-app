@@ -375,10 +375,10 @@ const displayCoin = (coin, chart) => {
   main.appendChild(coinChartStats);
 }
 
-const setCoin = async (coinId) => {
+const setCoinDetail = async (coinId) => {
   const coinData = await getCoinData(coinId);
   const coinChart = await getCoinChart(coinId);
   displayCoin(coinData, coinChart);
 }
 
-export default setCoin;
+export default setCoinDetail;
