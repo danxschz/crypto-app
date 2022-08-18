@@ -3,7 +3,7 @@
   <h1>Off The Grid: Cryptocurrency App</h1>
 
   <p>
-  Cryptocurrency app to keep track of price, volume and market capitalisation for 13,000+ coins
+  Cryptocurrency app to keep track of price, volume and market capitalization for 13,000+ coins
   </p>
 
   <p>
@@ -29,6 +29,16 @@
 
 ## About the Project
 
+### Screenshots
+
+<div align="center">
+  <h3>Desktop</h3>
+  <img src="screenshots/desktop.png" alt="desktop page" width="600" height="auto"/>
+
+  <h3>Mobile</h3>
+  <img src="screenshots/mobile.png" alt="mobile page" width="400" height="auto"/>
+</div>
+
 ### Built With
 
 - HTML
@@ -37,18 +47,18 @@
 - Sass
 - npm
 - webpack
+- Chart.js
 - CoinGecko API
 
 ### Color Reference
 
-| Color             | Hex                                                                |
-| ----------------- | ------------------------------------------------------------------ |
-| Primary Color | #F4F7F9 |
-| Accent Color | #21C9B8 |
-| Text Color | #262A41 |
-| Light Text Color | #262A4180 |
-| Positive Color | #41D9AB |
-| Negative Color | #EA3943 |
+| Color      | Hex     |
+| :--------: | :-----: |
+| Background | #F4F7F9 |
+| Primary    | #21C9B8 |
+| Text       | #262A41 |
+| Positive   | #41D9AB |
+| Negative   | #EA3943 |
 
 ## Getting Started
 
