@@ -34,6 +34,7 @@
 <div align="center">
   <h3>Desktop</h3>
   <img src="screenshots/desktop-home.png" alt="desktop page" width="600" height="auto"/>
+  &nbsp;
   <img src="screenshots/desktop-detail.png" alt="desktop page" width="600" height="auto"/>
 
   <h3>Mobile</h3>
