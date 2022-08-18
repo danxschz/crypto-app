@@ -33,10 +33,11 @@
 
 <div align="center">
   <h3>Desktop</h3>
-  <img src="screenshots/desktop.png" alt="desktop page" width="600" height="auto"/>
+  <img src="screenshots/desktop-home.png" alt="desktop page" width="600" height="auto"/>
+  <img src="screenshots/desktop-detail.png" alt="desktop page" width="600" height="auto"/>
 
   <h3>Mobile</h3>
-  <img src="screenshots/mobile.png" alt="mobile page" width="400" height="auto"/>
+  <img src="screenshots/mobile-detail.png" alt="mobile page" width="400" height="auto"/>
 </div>
 
 ### Built With
