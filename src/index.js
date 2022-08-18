@@ -6,7 +6,7 @@ import setCoinDetail from './setCoinDetail';
 import setListHeader from './setListHeader';
 import setCoinList from './setCoinList';
 import setFooter from './setFooter';
-import searchCoin, { resetInputs } from './searchCoin';
+import searchCoin, { resetInput } from './searchCoin';
 
 // Switching page logic
 const switchMain = (mainClass) => {
@@ -44,17 +44,18 @@ setCoinListPage();
 setFooter();
 
 // Set search bar
-const handleSearch = async () => {
+const handleSearch = async (e) => {
+  e.preventDefault();
   const searchBar = document.querySelector('#search');
   const results = await searchCoin(searchBar.value);
   if (results.coins.length > 0) {
-    resetInputs();
-    setSingleCoinPage(results.coins[0].id);
+    resetInput();
+    setCoinDetailPage(results.coins[0].id);
   } else {
     searchBar.value = 'No results found';
-    setTimeout(() => resetInputs(), 2000);
+    setTimeout(() => resetInput(), 2000);
   }
 }
 
-const searchBtn = document.querySelector('.search__btn');
-searchBtn.addEventListener('click', () => handleSearch());
+const searchForm = document.querySelector('.search');
+searchForm.addEventListener('submit', handleSearch);

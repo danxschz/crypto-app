@@ -229,12 +229,16 @@
 }
 
 .coin__statistic {
-  @include flex-row(null, center, space-between);
+  @include flex-row(16px, center, space-between);
   font-weight: 600;
 }
 
 .coin__statistic__title {
   white-space: nowrap;
+}
+
+.coin__statistic__value {
+  text-align: right;
 }
 
 .coin__statistic__value_div {
