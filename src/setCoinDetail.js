@@ -36,7 +36,11 @@ const displayCoinDetail = (coin, chart) => {
     total_volume,
     circulating_supply,
     max_supply,
-    total_supply
+    total_supply,
+    atl,
+    atl_date,
+    ath,
+    ath_date
   } = coin.market_data;
 
   const main = document.querySelector('main > div');
@@ -253,7 +257,7 @@ const displayCoinDetail = (coin, chart) => {
   const coinChartStats = generateElement('div', 'coin__chart-stats');
 
   const coinChartSection = generateElement('div', 'coin__chart-section');
-  const coinChartTitle = generateElement('div', 'coin__chart__title', `${coin.name} Price Chart (${coin.symbol.toUpperCase()}/USD)`);
+  const coinChartTitle = generateElement('h2', 'coin__chart__title', `${name} Price Chart (${symbol.toUpperCase()}/USD)`);
   coinChartSection.appendChild(coinChartTitle);
 
   const coinChart = generateElement('div', 'coin__chart'); 
@@ -316,16 +320,16 @@ const displayCoinDetail = (coin, chart) => {
   coinChartStats.appendChild(coinChartSection);
 
   const coinStatistics = generateElement('div', 'coin__statistics');
-  const coinStatisticsTitle = generateElement('div', 'coin__statistics__title', `${coin.symbol.toUpperCase()} Price Statistics`);
+  const coinStatisticsTitle = generateElement('h2', 'coin__statistics__title', `${symbol.toUpperCase()} Price Statistics`);
   coinStatistics.appendChild(coinStatisticsTitle);
 
   const priceStatistic = generateElement('div', 'coin__statistic');
-  const priceStatisticTitle = generateElement('div', 'coin__statistic__title', `${coin.name} Price`);
+  const priceStatisticTitle = generateElement('div', 'coin__statistic__title', `${name} Price`);
   priceStatistic.appendChild(priceStatisticTitle);
-  const priceStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.current_price.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  const priceStatisticValue = generateElement('div', 'coin__statistic__value', `$${current_price.usd.toLocaleString(undefined, maxDigits)}`);
   priceStatistic.appendChild(priceStatisticValue);
   coinStatistics.appendChild(priceStatistic);
-  let statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  let statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const dayLowHighStatistic = generateElement('div', 'coin__statistic');
@@ -334,16 +338,16 @@ const displayCoinDetail = (coin, chart) => {
   const dayLowHighStatisticValue = generateElement('div', 'coin__statistic__value', `${lowPriceContent} / ${highPriceContent}`);
   dayLowHighStatistic.appendChild(dayLowHighStatisticValue);
   coinStatistics.appendChild(dayLowHighStatistic);
-  statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const volumeStatistic = generateElement('div', 'coin__statistic');
   const volumeStatisticTitle = generateElement('div', 'coin__statistic__title', 'Trading Volume');
   volumeStatistic.appendChild(volumeStatisticTitle);
-  const volumeStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.total_volume.usd.toLocaleString()}`);
+  const volumeStatisticValue = generateElement('div', 'coin__statistic__value', `$${total_volume.usd.toLocaleString()}`);
   volumeStatistic.appendChild(volumeStatisticValue);
   coinStatistics.appendChild(volumeStatistic);
-  statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const rankStatistic = generateElement('div', 'coin__statistic');
@@ -352,16 +356,16 @@ const displayCoinDetail = (coin, chart) => {
   const rankStatisticValue = generateElement('div', 'coin__statistic__value', coinRankContent);
   rankStatistic.appendChild(rankStatisticValue);
   coinStatistics.appendChild(rankStatistic);
-  statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const marketCapStatistic = generateElement('div', 'coin__statistic');
   const marketCapStatisticTitle = generateElement('div', 'coin__statistic__title', 'Market Cap');
   marketCapStatistic.appendChild(marketCapStatisticTitle);
-  const marketCapStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.market_cap.usd.toLocaleString()}`);
+  const marketCapStatisticValue = generateElement('div', 'coin__statistic__value', `$${market_cap.usd.toLocaleString()}`);
   marketCapStatistic.appendChild(marketCapStatisticValue);
   coinStatistics.appendChild(marketCapStatistic);
-  statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const volumeByMarketStatistic = generateElement('div', 'coin__statistic');
@@ -370,29 +374,29 @@ const displayCoinDetail = (coin, chart) => {
   const volumeByMarketStatisticValue = generateElement('div', 'coin__statistic__value', volumeByMarketContent);
   volumeByMarketStatistic.appendChild(volumeByMarketStatisticValue);
   coinStatistics.appendChild(volumeByMarketStatistic);
-  statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const atlStatistic = generateElement('div', 'coin__statistic');
   const atlStatisticTitle = generateElement('div', 'coin__statistic__title', 'All-Time Low');
   atlStatistic.appendChild(atlStatisticTitle);
   const atlStatisticValueDiv = generateElement('div', 'coin__statistic__value_div');
-  const atlStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.atl.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  const atlStatisticValue = generateElement('div', 'coin__statistic__value', `$${atl.usd.toLocaleString(undefined, maxDigits)}`);
   atlStatisticValueDiv.appendChild(atlStatisticValue);
-  const atlStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(coin.market_data.atl_date.usd).format('MMMM DD, YYYY')} (${moment(coin.market_data.atl_date.usd).fromNow()})`);
+  const atlStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(atl_date.usd).format('MMMM DD, YYYY')} (${moment(atl_date.usd).fromNow()})`);
   atlStatisticValueDiv.appendChild(atlStatisticDate);
   atlStatistic.appendChild(atlStatisticValueDiv);
   coinStatistics.appendChild(atlStatistic);
-  statisticSeparator = generateElement('div', 'coin__statistics__separator');
+  statisticSeparator = generateElement('hr', 'coin__statistics__separator');
   coinStatistics.appendChild(statisticSeparator);
 
   const athStatistic = generateElement('div', 'coin__statistic');
   const athStatisticTitle = generateElement('div', 'coin__statistic__title', 'All-Time High');
   athStatistic.appendChild(athStatisticTitle);
   const athStatisticValueDiv = generateElement('div', 'coin__statistic__value_div');
-  const athStatisticValue = generateElement('div', 'coin__statistic__value', `$${coin.market_data.ath.usd.toLocaleString(undefined, {maximumFractionDigits: 7})}`);
+  const athStatisticValue = generateElement('div', 'coin__statistic__value', `$${ath.usd.toLocaleString(undefined, maxDigits)}`);
   athStatisticValueDiv.appendChild(athStatisticValue);
-  const athStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(coin.market_data.ath_date.usd).format('MMMM DD, YYYY')} (${moment(coin.market_data.ath_date.usd).fromNow()})`);
+  const athStatisticDate = generateElement('div', 'coin__statistic__date', `${moment(ath_date.usd).format('MMMM DD, YYYY')} (${moment(ath_date.usd).fromNow()})`);
   athStatisticValueDiv.appendChild(athStatisticDate);
   athStatistic.appendChild(athStatisticValueDiv);
   coinStatistics.appendChild(athStatistic);
