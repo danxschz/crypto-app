@@ -1,10 +1,10 @@
 @import './shared';
 
 .main-detail {
-  @include flex-col(48px);
+  @include flex-col(3rem);
 }
 
-.coin__category {
+.breadcrumbs {
   @include flex-row(12px, center);
   font-weight: 600;
 
@@ -16,19 +16,19 @@
   .fa-chevron-right {
     color: $clr-primary;
     font-size: 0.7rem;
-  }  
-}
+  }
 
-.coin__category__value {
-  color: $light-text-color;
+  span {
+    color: $clr-text-light;
+  }
 }
 
 .coin__info {
-  @include flex-row(null, flex-end, space-between);
+  @include flex-row(2rem, flex-end, space-between);
 }
 
 .coin__info__basic {
-  @include flex-col(16px);
+  @include flex-col(1rem);
 }
 
 .coin__rank {
@@ -36,7 +36,7 @@
   border-radius: 4px;
   width: max-content;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -58,13 +58,14 @@
   padding: 4px 6px;
   border-radius: 4px;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
   font-size: 0.9rem;
   text-transform: uppercase;
 }
 
 .coin__links {
   @include flex-row(8px);
+  flex-wrap: wrap;
 }
 
 .coin__link {
@@ -72,12 +73,12 @@
   padding: 6px 10px;
   border-radius: 4px;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
   font-weight: 600;
-  text-decoration: none;
   font-size: 0.8rem;
+  text-decoration: none;
 
-  &:hover {
+  &:hover, &:focus, &:active {
     opacity: 0.9;
   }
 }
@@ -87,7 +88,7 @@
 }
 
 .coin__price__title {
-  color: $light-text-color;
+  color: $clr-text-light;
   font-weight: 600;
   font-size: 0.9rem;
 
@@ -107,7 +108,7 @@
   padding: 4px 6px;
   border-radius: 4px;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
   font-weight: 700;
 
   .fa-caret-up {
@@ -125,7 +126,7 @@
 }
 
 .coin__range__title {
-  color: $light-text-color;
+  color: $clr-text-light;
   font-weight: 500;
 }
 
@@ -144,7 +145,7 @@
   padding: 4px 6px;
   border-radius: 4px;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -172,7 +173,7 @@
 }
 
 .coin__indicator__title {
-  color: $light-text-color;
+  color: $clr-text-light;
 }
 
 .coin__supply__bar {
@@ -207,7 +208,7 @@
   padding: 20px;
   border-radius: 4px;
   background: $clr-primary;
-  color: white;
+  color: $clr-neutral-100;
 }
 
 .coin__statistics__title {
@@ -219,7 +220,7 @@
 .coin__statistics__separator {
   width: 100%;
   height: 1px;
-  background: white;
+  background: $clr-neutral-100;
   opacity: 0.7;
 }
 
@@ -235,4 +236,57 @@
 .coin__statistic__date {
   font-weight: 500;
   font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .main-detail {
+    gap: 2rem;
+  }
+
+  .coin__info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coin__info__price {
+    align-items: flex-start;
+    width: 100%;
+
+    > div {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .coin__range__bar {
+    width: 100%;
+  }
+
+  .coin__range__indicator {
+    display: none;
+  }
+
+  .coin__indicators {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .coin__indicator-section {
+    padding: 0;
+    gap: 2rem;
+
+    &:nth-child(4) {
+      .coin__indicator:last-child {
+        gap: 2rem;
+
+        .coin__indicator_horizontal {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  
+  .coin__chart-stats {
+    display: none;
+  }
 }
