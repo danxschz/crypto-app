@@ -19,7 +19,7 @@
   </p>
 
   <h4>
-    <a href="https://danxschz.github.io/crypto-app">View Demo</a>
+    <a href="https://otg.danxschz.com/">View Demo</a>
     <span> · </span>
     <a href="https://github.com/danxschz/crypto-app/issues/">Report Bug</a>
   </h4>
@@ -49,8 +49,8 @@
 - CSS
 - JavaScript
 - Sass
+- Webpack
 - npm
-- webpack
 - Chart.js
 - CoinGecko API
 
@@ -99,4 +99,4 @@ Distributed under the MIT License. See LICENSE for more information.
 
 ## Contact
 
-Daniel Sanchez (@danxschz) - danxschz@gmail.com
+Daniel Sanchez (@danxschz) · [Portfolio](https://danxschz.com/) · danxschz@gmail.com
