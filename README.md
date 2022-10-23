@@ -99,4 +99,4 @@ Distributed under the MIT License. See LICENSE for more information.
 
 ## Contact
 
-Daniel Sanchez (@danxschz) · [Portfolio](https://danxschz.com/) · danxschz@gmail.com
+Daniel Sanchez (@danxschz) · [Portfolio](https://danxschz.com/) · contact@danxschz.com
