@@ -179,6 +179,12 @@ footer {
   font-weight: 600;
 }
 
+@media (min-width: 1536px) {
+  :root {
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 600px) {
   header {
     grid-template-columns: auto auto;
